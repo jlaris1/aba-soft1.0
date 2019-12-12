@@ -1,0 +1,56 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        label {
+            font-weight: 700;
+        }
+    script.
+        $(document).ready( function(){
+        });
+
+    i(style="font-size: 1.5em; margin-right: 10px;").fa.fas.fa-handshake
+    label(style="font-size: 1.5em") Nuevo Cliente
+    .divider(style="margin-bottom: 20px;")
+    form(role="form" method="post" action="/clientes/guardar")
+        label Generales
+        .row
+            .col-lg-3
+                .form-group
+                    label | Código
+                    .input-group
+                        input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
+            .col-lg-5
+                .form-group
+                    label | Nombre
+                    .input-group
+                        input.form-control(required type="text" name="nombre" placeholder="Descripción" tabindex="2")
+            .col-lg-4
+                .form-group
+                    label | Identificación
+                    .input-group
+                        select.form-control(required type="text" name="identificacion" placeholder="Identificación" tabindex="3")
+                            option(value=0) << Seleccione >>
+                            option(value="INE") INE
+                            option(valie="Licencia") Licencia
+        .row
+            .col-lg-4
+                .form-group
+                    label | No. Identificación
+                    .input-group
+                        input.form-control(required type="text" name="noIdentificacion" placeholder="No. Identificación" tabindex="4")
+            .col-lg-4
+                .form-group
+                    label | Límite Crédito
+                    .input-group
+                        input.form-control(required type="text" name="limiteCredito" placeholder="Límite de Crédito" tabindex="5")
+            .col-lg-4
+                .form-group
+                    label | Saldo Actual
+                    .input-group
+                        input.form-control(readonly type="text" name="saldo" placeholder="Saldo Actual")
+        .divider(style="margin-bottom: 20px; margin-top: 20px;")
+        .row
+            .col-lg-2.align-self-end.ml-auto
+                .form-group
+                    .input-group
+                        input(type="submit" value="Guardar" tabindex="6").btn.btn-success.form-control

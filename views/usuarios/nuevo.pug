@@ -1,0 +1,38 @@
+extends ../layouts/layout.pug
+block contenido
+    i(style="font-size: 1.5em; margin-right: 10px;").fa.fas.fa-user
+    label(style="font-size: 1.5em") Nuevo Usuario
+    .divider(style="margin-bottom: 20px;")
+    form(role="form" method="post" action="/usuarios/guardar")
+        .row
+            .col-lg-12
+                .form-group
+                    label | Nombre
+                    .input-group
+                        input.form-control(required type="text" name="nombre" placeholder="Nombre" tabindex="1")
+        .row
+            .col-lg-4
+                .form-group
+                    label | Usuario
+                    .input-group
+                        input.form-control(required type="text" name="usuario" placeholder="Usuario" tabindex="2")
+            .col-lg-4
+                .form-group
+                    label | Password
+                    .input-group
+                        input.form-control(required type="password" name="password" placeholder="Password" tabindex="3")
+            .col-lg-4
+                .form-group
+                    label | Password
+                    .input-group
+                        select.form-control(required name="permisos" placeholder="Permisos" tabindex="4")
+                            option(value=0) << Seleccione >>
+                            option(value=1) Administrador
+                            option(value=2) Ventas
+                            option(value=3) Inventarios
+        .divider(style="margin-bottom: 20px; margin-top: 20px;")
+        .row
+            .col-lg-2.align-self-end.ml-auto
+                .form-group
+                    .input-group
+                        input(type="submit" value="Guardar" tabindex="5").btn.btn-success.form-control

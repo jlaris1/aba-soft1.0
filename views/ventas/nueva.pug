@@ -1,0 +1,401 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        .badge {
+            font-size: 1.5em;
+        }
+        .btn {
+            position: relative;
+            padding: 12px 30px;
+            margin: .3125rem 1px;
+            font-size: .75rem;
+            font-weight: 400;
+            line-height: 1.428571;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            cursor: pointer;
+            background-color: transparent;
+            border: 0;
+            border-radius: .2rem;
+            transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1);
+            will-change: box-shadow,transform;
+        }
+    script.
+        var productos = [];
+        var venta = [];
+        var subtotal = 0.00;
+        var iva = 0.00;
+        var total = 0.00;
+        var prod;
+        
+        $(document).ready( function(){
+            //obtenerfecha();
+            //obtenerhora();
+            $("#codigo").focus();
+            convertirArray();
+
+            $('#codigo').on('keyup', function(){
+                var valor = this.value;
+                productos.forEach( function(p){
+                    if(p.codigo == valor){
+                        registrarArticulo(p, $('#cantidad').val());
+                    }
+                });
+            });
+
+            $('#pagaCon').on('keyup', function(){
+                if(this.value == 0){
+                    $('#cambio').text("$0.00")
+                } else {
+                    var cambio = parseFloat(this.value) - parseFloat(total);
+                    $('#cambio').text(FormatMoney(true,parseFloat(cambio.toFixed(2))));
+                    $('#pagoCon').val(parseFloat(this.value).toFixed(2));
+                    $('#cambioV').val(parseFloat(cambio.toFixed(2)));
+                }   
+            });
+
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        function obtenerfecha(){
+            var fecha = new Date()
+            var dia = fecha.getDate();
+            var mes = fecha.getMonth()+1;
+            var anio = fecha.getFullYear();
+
+            if(dia < 10){
+                dia = "0"+dia;
+            }
+
+            if(mes < 10){
+                mes = "0"+mes;
+            }
+
+            $("#fecha").text(dia+"/"+mes+"/"+anio+"    ");
+        }
+
+        function obtenerhora(){
+            var tiempo = new Date();
+            var horas = tiempo.getHours();
+            var minutos = tiempo.getMinutes();
+            var segundos = tiempo.getSeconds();
+            var dn ="";
+
+            if(horas < 12){
+                dn = "a.m.";
+            }else{
+                dn = "p.m.";
+            }
+
+            if(minutos < 10){
+                minutos = "0"+minutos;
+            }
+
+            if(segundos < 10){
+                segundos = "0"+segundos;
+            }
+                
+            $("#hora").text(horas+":"+minutos+":"+segundos+" "+dn+"    ");
+
+            setTimeout('obtenerhora()',1000);
+            //console.log("un segundo mas...");
+        }
+
+        function convertirArray(){
+            var obj = new Object();
+            var arr = $('#productos').val().split("},");
+
+            /*
+               0 ID
+               1 codigo: String,
+               2 descripcion: String,
+               3 unidad: String,
+               4 costo: String,
+               5 utilidad: String,
+               6 pUtilidad: String,
+               7 pVenta: String,
+               8 existencia: String
+            */
+
+            for(var i = 0; i < arr.length; i ++){
+                var aObj = arr[i].replace(/"/g, '');
+
+                obj.id = aObj.split(",")[0].split(":")[1];
+                obj.codigo = aObj.split(",")[1].split(":")[1];
+                obj.descripcion = aObj.split(",")[2].split(":")[1];
+                obj.unidad = aObj.split(",")[3].split(":")[1];
+                obj.pVenta = aObj.split(",")[7].split(":")[1];
+                obj.existencia = aObj.split(",")[8].split(":")[1];
+
+                productos.push(obj);
+                obj = new Object();
+            }
+        }
+
+        function eliminarProducto(id){
+            total = (parseFloat(total) - parseFloat(venta[id].importe)).toFixed(2);
+            iva = (parseFloat(total) * .16).toFixed(2); 
+            subtotal = (parseFloat(total) - parseFloat(iva)).toFixed(2);
+
+            $('#subtotal').text(FormatMoney(true, parseFloat(subtotal)));
+            $('#iva').text(FormatMoney(true, parseFloat(iva)));
+            $('#total').text(FormatMoney(true, parseFloat(total)));
+
+            $(".tr").remove();
+            venta.splice(id, 1);
+
+            venta.forEach( function(vta){
+                var rowCount = $('#articulos >tbody >tr').length;
+
+                vta.rowCount = rowCount;
+                
+                $('#articulos > tbody:last').append(
+                    "<tr id='tr" + rowCount + "'>" +
+                    "   <td id='cant" + rowCount + "' class='text-center'>" + vta.cantidad + "</td> " +
+                    "   <td id='des" + rowCount + "' class='text-right'>" + vta.descripcion + "</td> " +
+                    "   <td id='uni" + rowCount + "' class='text-right'>" + vta.unidad + "</td> " +
+                    "   <td id='pve" + rowCount + "' class='text-right'>" + vta.pVenta + "</td> " +
+                    "   <td id='imp" + rowCount + "' class='text-right'>" + vta.importe  + "</td> " +
+                    "   <td class='text-right'>"+
+                    "       <a id='" + rowCount + "' href='#', data-toggle='tooltip', data-placement='top', title='Agregar' onclick='eliminarProducto(this.id)'> "+ 
+                    "          <i class='fas fa-minus-circle text-danger fa-lg'></i>" +
+                    "       </a>" +
+                    "   </td> " +
+                    "</tr>"
+                );
+            });
+
+            $("#venta").val(JSON.stringify(venta));
+        }
+
+        function registrarArticulo(registro, cantidad){
+            var importe = 0.00;
+
+            if(existeProducto(registro, cantidad)){
+                importe = prod.pVenta;    
+            } else {
+                rowCount = $('#articulos >tbody >tr').length;
+
+                importe = (parseFloat(cantidad) * parseFloat(registro.pVenta)).toFixed(2);
+
+                $('#articulos > tbody:last').append(
+                    "<tr class='tr' id='tr" + rowCount + "'>" +
+                    "   <td id='cant" + rowCount + "' class='text-center'>" + cantidad + "</td> " +
+                    "   <td id='des" + rowCount + "' class='text-right'>" + registro.descripcion + "</td> " +
+                    "   <td id='uni" + rowCount + "' class='text-right'>" + registro.unidad + "</td> " +
+                    "   <td id='pve" + rowCount + "' class='text-right'>" + registro.pVenta + "</td> " +
+                    "   <td id='imp" + rowCount + "' class='text-right'>" + importe  + "</td> " +
+                    "   <td class='text-right'>"+
+                    "       <a id='" + rowCount + "' href='#', data-toggle='tooltip', data-placement='top', title='Agregar' onclick='eliminarProducto(this.id)'> "+ 
+                    "          <i class='fas fa-minus-circle text-danger fa-lg'></i>" +
+                    "       </a>" +
+                    "   </td> " +
+                    "</tr>"
+                );
+
+                obj = new Object();
+
+                obj.id = registro.id;
+                obj.codigo = registro.codigo;
+                obj.descripcion = registro.descripcion;
+                obj.unidad = registro.unidad;
+                obj.cantidad = cantidad;
+                obj.pVenta = registro.pVenta;
+                obj.importe = importe;
+                obj.rowCount = rowCount;
+                obj.existencia = registro.existencia;
+
+                venta.push(obj); 
+            }
+
+            $('#venta').val(JSON.stringify(venta));
+
+            total = (parseFloat(total) + parseFloat(importe)).toFixed(2);
+            iva = (parseFloat(total) * .16).toFixed(2); 
+            subtotal = (parseFloat(total) - parseFloat(iva)).toFixed(2);
+
+            $('#subtotal').text(FormatMoney(true, parseFloat(subtotal)));
+            $('#iva').text(FormatMoney(true, parseFloat(iva)));
+            $('#total').text(FormatMoney(true, parseFloat(total)));
+
+            $('#sub').val(parseFloat(subtotal).toFixed(2));
+            $('#iv').val(parseFloat(iva).toFixed(2));
+            $('#tot').val(parseFloat(total).toFixed(2));
+
+            $('#codigo').val('');
+            $('#cantidad').val('1.00');
+        }
+
+        function FormatMoney(bol, valor){
+            var total = 0;
+
+            if (bol) {
+                total += valor;
+            } else {
+                total-=valor;
+            }
+            
+            var entero = '';
+            
+            Entero_Decimal = total.toString().split('.');
+            
+            cadena = Entero_Decimal[0].split('').reverse().join('');
+            
+            for (var z = cadena.length; z >=0; z--) {
+                numero = cadena.charAt(z)
+                
+                if ((cadena.length >= 4 && z ==3 ) || (cadena.length >= 7 && z ==6 ) || (cadena.length >= 10 && z == 9 ) || (cadena.length >= 13 && z ==12 ) || (cadena.length >= 16 && z ==15 )) {
+                    numero +=  ",";
+                }
+
+                entero += numero;
+            }
+            
+            if(Entero_Decimal[1]) {
+                if( Entero_Decimal[1].length == 1){
+                    decimales = '.'+ Entero_Decimal[1]+'0';
+                } else {
+                    decimales = '.'+ Entero_Decimal[1];
+                }
+                
+            } else {
+                decimales = '.00';
+            }
+            
+            return "$ " + entero + decimales;
+        }
+
+        function existeProducto(producto, cantidad){
+            for(var i=0; i < venta.length; i ++){
+                if(venta[i].codigo == producto.codigo){
+                    console.log(" Entre en " + venta[i].codigo + " VS " + producto.codigo);
+                    console.log(venta[i]);
+                    console.log($('#articulos').html());
+                    venta[i].cantidad = (parseFloat(venta[i].cantidad) + parseFloat(cantidad)).toFixed(2);
+                    venta[i].importe = (parseFloat(venta[i].cantidad) * parseFloat(venta[i].pVenta)).toFixed(2);
+                    
+                    $("#cant" + venta[i].rowCount).text(venta[i].cantidad);
+                    $("#imp" + venta[i].rowCount).text(venta[i].importe);
+
+                    prod = venta[i];
+
+                    $('#venta').val(JSON.stringify(venta));
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function totales(){
+            $('#cobrar').modal('show');
+            $('#totalModal').text($('#total').text());
+        }
+
+        function submit(){
+            $('#venta').val(JSON.stringify(venta));
+            document.frm.submit();
+        }
+    // TERMINA JAVASCRIPT
+
+    .btn-group
+        label(style="font-size: 1.5em;") Nueva Venta
+        label.badge.badge-dark(style="margin-left: 25px;") CLIENTE: XXX - VENTA GENERAL
+    .divider(style="margin-bottom: 20px;")
+    .text-right
+        div.btn-group
+            label.badge.badge-primary TCK#{nTicket}  
+            label.badge.badge-primary VTA#{nTicket}
+    form(role="form" name="frm" method="post" action="/ventas/guardar")
+        input#productos(hidden type="text" value=productos)
+        input#venta(hidden name="venta" type="text")
+        input#pagoCon(hidden name="pagoCon" type="text")
+        input#cambioV(hidden name="cambio" type="text")
+        .row
+            .col-lg-4
+                .form-group
+                    label | Código Producto
+                    .input-group
+                        input#codigo.form-control(type="text" name="codigoProducto" placeholder="Código Producto" tabindex="1")
+            .col-lg-4
+                .form-group
+                    label | Cantidad
+                    .input-group
+                        input#cantidad.form-control(type="text" name="cantidad" placeholder="Cantidad" value="1.00" tabindex="2")
+            .col-lg-2(style="margin-top: 32px;")
+                a(href="#")
+                    i(style="font-size: 2.4em;" data-toggle="tooltip", data-placement="top", title="Agregar").text-success.fa.fas.fa-plus-circle
+        .row
+            .col-lg-12
+                table#articulos.table.table-striped
+                    thead
+                        th.text-center  Cantidad
+                        th.text-right   Descripción
+                        th.text-right   Unidad
+                        th.text-right   Precio Unitario
+                        th.text-right   Importe
+                        th
+                    tbody
+        .row.justify-content-end.text-right(style="margin-top: 30px;")
+            .col-lg-2
+                label Subtotal
+            .col-lg-2
+                input#sub(hidden type="text" name="subtotal")
+                label(style="font-size: 1.2em")#subtotal 0.00
+        .row.justify-content-end.text-right
+            .col-lg-2
+                label IVA
+            .col-lg-2
+                input#iv(hidden type="text" name="iva")
+                label(style="font-size: 1.2em")#iva 0.00
+        .row.justify-content-end.text-right
+            .col-lg-2
+                label Total
+            .col-lg-2
+                input#tot(hidden type="text" name="total")
+                label(style="font-size: 2.5em")#total 
+                    strong 0.00
+    .divider(style="margin-bottom: 5px; margin-top; 5px;")
+    .text-right(style="margin-bottom: 25px;")
+        .btn-group
+            a(href="#cobrar" data-toggle="modal" data-target="#cobrar" onclick="totales()").btn.btn-success
+                i.fa.fas.fa-dollar-sign(style="color: white;")
+                |   Cobrar
+            a.disabled(href="#").btn.btn-secondary
+                i.fa.fas.fa-user-plus(style="color: white;")
+                |   Cliente
+    
+    .modal#cobrar(role="dialog" tabindex="-1")
+        .modal-dialog(role="document")
+            .modal-content
+                .modal-header.Popup(style="font-size: 2em; margin: 0;")
+                    .col-lg-12
+                        i.fa.fas.fa-dollar-sign(style="margin-right: 15px;")
+                        label 
+                            strong Cobrar
+                .modal-body(style="font-size: 2em;")
+                    .row.justify-content-end.text-right
+                        .col-lg-6
+                            label Total
+                        .col-lg-6
+                            label
+                                strong#totalModal
+                    .row.justify-content-end.text-right
+                        .col-lg-6
+                            label Paga Con
+                        .col-lg-6(style="margin-top: 10px;")
+                            .input-group
+                                input#pagaCon.form-control(type="text" value="0.00" style="font-size: 1.0em; text-align: right;")
+                    .row.justify-content-end.text-right
+                        .col-lg-6
+                            label Cambio
+                        .col-lg-6
+                            label 
+                                strong#cambio 
+                .modal-footer
+                    .text-right
+                        .btn-group
+                            a(href="#cobrar" data-toggle="modal" data-target="#cobrar" onclick="submit()").btn.btn-success
+                                i.fa.fas.fa-hand-holding-usd(style="color: white;")
+                                |   Terminar

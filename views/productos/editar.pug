@@ -1,0 +1,106 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        label {
+            font-weight: 700;
+        }
+    script.
+        $(document).ready( function(){
+
+            // Asignar precio en base a utilidad al 15%.
+            $('#costo').on('keyup', function(){
+                $('#pVenta').val((parseFloat(this.value) * 1.15).toFixed(2));
+                $('#utilidad').val((parseFloat($('#pVenta').val()) - parseFloat(this.value)).toFixed(2));
+                $('#pUtilidad').val(15.00);                
+            });
+
+            // Asignar valor de inventario en base a existencia
+            $('#existencia').on('keyup', function(){
+                $('#vInventario').val((parseFloat(this.value) * parseFloat($('#costo').val())).toFixed(2))
+            });
+
+            $('#pVenta').on('keyup', function(){
+                $('#utilidad').val((parseFloat(this.value) - parseFloat($('#costo').val())).toFixed(2));
+                var utilidad = ((parseFloat( $('#utilidad').val()) * 100) / parseFloat($('#costo').val())).toFixed(2);
+                $('#pUtilidad').val(utilidad);
+            });
+
+            // Asignar precio de venta en base a utilidad
+            $('#pUtilidad').on('keyup', function(){
+                var utilidad = (parseFloat($('#costo').val()) * (parseFloat(this.value) / 100)).toFixed(2)
+                $('#pVenta').val((parseFloat(utilidad) + parseFloat($('#costo').val())).toFixed(2));
+                $('#utilidad').val((parseFloat(utilidad)).toFixed(2));
+            });
+        });
+
+    label(style="font-size: 1.5em") Editar Producto
+    .divider(style="margin-bottom: 20px;")
+    form(role="form" method="post" action=`/productos/actualizar/${producto.id}?_method=put`)
+        label Generales
+        .row
+            .col-lg-3
+                .form-group
+                    label | Código
+                    .input-group
+                        input.form-control(required type="text" name="codigo" value=producto.codigo placeholder="Código" tabindex="1")
+            .col-lg-7
+                .form-group
+                    label | Descripción
+                    .input-group
+                        input.form-control(required type="text" name="descripcion" value=producto.descripcion placeholder="Descripción" tabindex="2")
+            .col-lg-2
+                .form-group
+                    label | Unidad
+                    .input-group
+                        select.form-control(required type="text" name="unidad" placeholder="Unidad" tabindex="3")
+                            option(value=0) << Seleccione >>
+                            option(value="PZA", selected=("PZA" == producto.unidad)) PZA
+                            option(valie="KGS", selected=("KGS" == producto.unidad)) KGS
+        .row
+            .col-lg-3
+                .form-group
+                    label | Costo
+                    .input-group
+                        input#costo.form-control(required type="text" name="costo" value=producto.costo placeholder="Precio Unitario" tabindex="4")
+            .col-lg-3
+                .form-group
+                    label | Precio Venta
+                    .input-group
+                        input#pVenta.form-control(type="text" name="pVenta" value=producto.pVenta placeholder="Precio Venta")
+            .col-lg-3
+                .form-group
+                    label | Utilidad
+                    .input-group
+                        input#utilidad.form-control(type="text" name="utilidad" value=producto.utilidad placeholder="Utilidad")
+            .col-lg-3
+                .form-group
+                    label | % Utilidad
+                    .input-group
+                        input#pUtilidad.form-control(type="text" name="pUtilidad" value=producto.pUtilidad placeholder="% Utilidad")
+        .row
+            .col-lg-3
+                .form-group
+                    label | Existencia
+                    .input-group
+                        input#existencia.form-control(required type="text" name="existencia" value=producto.existencia placeholder="Cantidad" tabindex="4")
+            .col-lg-3
+                .form-group
+                    label | Mínimo
+                    .input-group
+                        input.form-control(required type="text" name="minimo" value=producto.minimo placeholder="Mínimo" tabindex="5")
+            .col-lg-3
+                .form-group
+                    label | Máximo
+                    .input-group
+                        input.form-control(required type="text" name="maximo"  value=producto.maximo placeholder="Máximo" tabindex="6")
+            .col-lg-3
+                .form-group
+                    label | Valor Inventario
+                    .input-group
+                        input#vInventario.form-control(readonly type="text" placeholder="Valor Inventario")
+        .divider(style="margin-bottom: 20px; margin-top: 20px;")
+        .row
+            .col-lg-2.align-self-end.ml-auto
+                .form-group
+                    .input-group
+                        input(type="submit" value="Actualizar" tabindex="7").btn.btn-success.form-control

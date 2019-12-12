@@ -1,0 +1,31 @@
+extends ../layouts/layout.pug
+block contenido
+    i(style="font-size: 1.5em; margin-right: 10px;").fa.fas.fa-user
+    label(style="font-size: 1.5em") Usuarios
+    .divider(style="margin-bottom: 20px;")
+    .row
+        .col-lg-12.text-right(style="margin-bottom: 25px;") 
+            a(href="/usuarios/nuevo")
+                i.fas.fa-plus-circle
+                |   Nuevo
+    table#products.table.table-hover
+            thead
+                th
+                    |   Nombre   
+                th
+                    |   Usuario
+                th
+                    |   Permisos
+                th.text-center
+                    |   Acciones
+            tbody
+                each usr in usuarios
+                    tr(scope="row")
+                        td #{ usr.nombre }
+                        td #{ usr.usuario }
+                        td #{ usr.permisos }
+                        td.text-center
+                            a(href="/usuarios/editar/#{usr.id}", data-toggle="tooltip", data-placement="top", title="Editar", style="margin-right: 15px;")
+                                i.fas.fa-pencil-alt.text-info.fa-lg
+                            a(data-toggle="tooltip" href="usuarios/eliminar/#{usr.id}" title="Eliminar")
+                                i.fas.fa-minus-circle.text-danger.fa-lg

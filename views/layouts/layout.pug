@@ -1,0 +1,133 @@
+doctype html
+html(lang="es")
+	head
+		title AbaSoft 1.0
+		meta(charset="utf-8")
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+		meta(name='description', content='')
+		meta(name='author', content='')
+		// CSS
+		link(rel="shortcut icon" href="/imgs/abasoftico.png")
+		link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+		link(href='/vendor/fontawesome-free/css/all.min.css', rel='stylesheet', type='text/css')
+		link(href='/datatables/datatables.css', rel='stylesheet')
+		link(href='/css/sb-admin.css', rel='stylesheet')
+		link(href='/css/app.css', rel='stylesheet')
+		//link(href='/css/material.css', rel='stylesheet')
+		// JS
+		script(src='/vendor/jquery/jquery.min.js')
+		script(src='https://code.jquery.com/jquery-3.3.1.js')
+		script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
+		script(src='/vendor/jquery-easing/jquery.easing.min.js')
+		script(src='/vendor/chart.js/Chart.min.js')
+		script(src='/datatables/datatables.js')
+		script(src='/js/sb-admin.min.js')
+	body#page-top
+		nav.navbar.navbar-expand.navbar-dark.bg-dark.static-top
+			a.navbar-brand.mr-1(href='#') AbaSoft 1.0
+			button#sidebarToggle.btn.btn-link.btn-sm.text-white.order-1.order-sm-0(href='#')
+				i.fas.fa-bars
+			// Navbar
+			ul.navbar-nav.d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0
+				li.nav-item.dropdown.no-arrow
+					a#userDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-user-circle.fa-fw
+					.dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
+						//a.dropdown-item(href='#') Configuración
+						//.dropdown-divider
+						a.dropdown-item(href='#', data-toggle='modal', data-target='#logoutModal') Cerrar Sesión
+		#wrapper
+			// Sidebar
+			ul.sidebar.navbar-nav
+				// INICIO
+				li.nav-item.active
+					a.nav-link(href='/')
+						i.fas.fa-fw.fa-home
+						|	Inicio
+				// VENTAS
+				li.nav-item.dropdown
+					a#ventasDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-fw.fa-dollar-sign
+						|	Ventas
+					.dropdown-menu(aria-labelledby='ventasDropdown')
+						a.dropdown-item(href='/ventas/') 
+							i.fas.fa-table
+							|	Bandeja
+						//.dropdown-divider
+						a.dropdown-item(href='/ventas/nueva') 
+							i.fas.fa-plus-circle
+							|	Nueva Venta
+				// PRODUCTOS
+				li.nav-item.dropdown
+					a#productosDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-fw.fa-boxes
+						|	Productos
+					.dropdown-menu(aria-labelledby='productosDropdown')
+						a.dropdown-item(href='/productos') 
+							i.fas.fa-table
+							|	Bandeja
+						//.dropdown-divider
+						a.dropdown-item(href='/productos/nuevo') 
+							i.fas.fa-plus-circle
+							|	Nuevo Producto
+				// INVENTARIOS
+				li.nav-item.dropdown
+					a#inventariosDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-fw.fa-warehouse
+						|	Inventarios
+					.dropdown-menu(aria-labelledby='inventariosDropdown')
+						a.dropdown-item(href='#') 
+							i.fas.fa-table
+							|	Bandeja
+						//.dropdown-divider
+				// CLIENTES
+				li.nav-item.dropdown
+					a#clientesDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-lg.fa-comment-dollar
+						|	Clientes
+					.dropdown-menu(aria-labelledby='clientesDropdown')
+						a.dropdown-item(href='/clientes') 
+							i.fas.fa-table
+							|	Bandeja
+						//.dropdown-divider
+						a.dropdown-item(href='/clientes/nuevo') 
+							i.fas.fa-plus-circle
+							|	Nuevo Cliente
+				// USUARIOS
+				li.nav-item.dropdown
+					a#usuarioDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-fw.fa-users
+						|	Usuarios
+					.dropdown-menu(aria-labelledby='usuarioDropdown')
+						a.dropdown-item(href='/usuarios') 
+							i.fas.fa-table
+							|	Bandeja
+						//.dropdown-divider
+						a.dropdown-item(href='/usuarios/nuevo') 
+							i.fas.fa-plus-circle
+							|	Nuevo Usuario
+			#content-wrapper
+				.container-fluid
+					block contenido
+			a.scroll-to-top.rounded(href='#page-top')
+				i.fas.fa-angle-up
+			// Logout Modal
+			#logoutModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+				.modal-dialog(role='document')
+					.modal-content
+						.modal-header
+							h5#exampleModalLabel.modal-title ¿Esta seguro que desea salir?
+							button.close(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+						.modal-body Seleccione "Cerrar Sesión" "Logout" si esta listo para cerrar sesión.
+						.modal-footer
+							button.btn.btn-secondary(type='button', data-dismiss='modal') Cancelar
+							a.btn.btn-danger(href='/cerrar_sesion') Cerrar Sesión
+			// Sticky Footer
+			footer.sticky-footer
+				//.col-lg-12.text-right
+					.copyright.text-center.my-auto
+					span(style="font-size: 0.9em;") 
+						|	FaFa DevCo © 
+						strong 2018
