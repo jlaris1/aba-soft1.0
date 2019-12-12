@@ -19,13 +19,22 @@ require('mongoose-double')(mongoose);
 // Eliminar mensaje deprecation warning
 mongoose.Promise = global.Promise;
 
-// conexión a base de datos local mongoDB 
-mongoose.connect(
-	"mongodb://localhost:27017/abasoft",  
-	{ 
-		useNewUrlParser: true, 
-		useFindAndModify: false 
-	});
+const dbConCloud = "mongodb://db_user:%40db_user911@affatest-shard-00-00-ee6re.gcp.mongodb.net:27017,affatest-shard-00-01-ee6re.gcp.mongodb.net:27017,affatest-shard-00-02-ee6re.gcp.mongodb.net:27017/affatest?ssl=true&replicaSet=affaTest-shard-0&authSource=admin&retryWrites=true"
+const dbConLocal = "mongodb://localhost:27017/llaosserv";
+
+// Producción
+//mongoose.connect(dbConCloud,  { useNewUrlParser: true , useUnifiedTopology: true});
+
+mongoose
+.connect(dbConCloud, {
+	//useUnifiedTopology: true,
+	useNewUrlParser: true,
+})
+.then(() => console.log('DB Connected!'))
+.catch(err => {
+	console.log('DB Connection Error:' + err); 
+	//console.log('DB Connection Error:' `${err.message}`);
+});
 
 // Indicar a express que el motor visual será JADE/PUG
 app.set("view engine","pug");
