@@ -25,7 +25,7 @@
     "flash": "^1.1.0",
     "greenlock-express": "^2.6.8",
     "hooks-fixed": "^2.0.2",
-    "jade": "^1.11.0",
+    "pug": "^2.0.4",
     "kareem": "^2.3.0",
     "linebreak": "^0.3.0",
     "method-override": "^3.0.0",
