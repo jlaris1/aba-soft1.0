@@ -62,6 +62,8 @@ app.locals.moment = require('moment');
 require('./config/models/Usuarios');
 require('./config/models/Clientes');
 require('./config/models/Productos');
+require('./config/models/Servicios');
+require('./config/models/TiposServicios');
 require('./config/models/Proveedores');
 require('./config/models/Ventas');
 

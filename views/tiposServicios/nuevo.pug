@@ -1,0 +1,58 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        label {
+            font-weight: 700;
+        }
+    script.
+        $(document).ready( function(){
+
+            // Asignar precio en base a utilidad al 15%.
+            $('#costo').on('keyup', function(){
+                $('#pVenta').val((parseFloat(this.value) * 1.15).toFixed(2));
+                $('#utilidad').val((parseFloat($('#pVenta').val()) - parseFloat(this.value)).toFixed(2));
+                $('#pUtilidad').val(15.00);                
+            });
+
+
+            $('#pVenta').on('keyup', function(){
+                $('#utilidad').val((parseFloat(this.value) - parseFloat($('#costo').val())).toFixed(2));
+                var utilidad = ((parseFloat( $('#utilidad').val()) * 100) / parseFloat($('#costo').val())).toFixed(2);
+                $('#pUtilidad').val(utilidad);
+            });
+
+            // Asignar precio de venta en base a utilidad
+            $('#pUtilidad').on('keyup', function(){
+                var utilidad = (parseFloat($('#costo').val()) * (parseFloat(this.value) / 100)).toFixed(2)
+                $('#pVenta').val((parseFloat(utilidad) + parseFloat($('#costo').val())).toFixed(2));
+                $('#utilidad').val((parseFloat(utilidad)).toFixed(2));
+            });
+        });
+
+    i(style="font-size: 1.5em; margin-right: 10px;").fa.fas.fa-box
+    label(style="font-size: 1.5em") Nuevo tipo de servicio
+    .divider(style="margin-bottom: 20px;")
+    form(role="form" method="post" action="/tiposServicios/guardar")
+        label Generales
+        .row
+            .col-lg-3
+                .form-group
+                    label | Código
+                    .input-group
+                        input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
+            .col-lg-7
+                .form-group
+                    label | Nombre
+                    .input-group
+                        input.form-control(required type="text" name="nombre" placeholder="Nombre" tabindex="2")
+            .col-lg-7
+                .form-group
+                    label | Descripción
+                    .input-group
+                        input.form-control(required type="text" name="descripcion" placeholder="Descripción" tabindex="3")
+        .divider(style="margin-bottom: 20px; margin-top: 20px;")
+        .row
+            .col-lg-2.align-self-end.ml-auto
+                .form-group
+                    .input-group
+                        input(type="submit" value="Guardar" tabindex="7").btn.btn-success.form-control
