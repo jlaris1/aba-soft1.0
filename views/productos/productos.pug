@@ -28,9 +28,11 @@ block contenido
                 |   Reportes
     .card
         .card-tittle
-        .card-body
-            table#products.table.table-hover(style="margin-bottom: 15px;")
+        .card-body.table-color-new
+            table#products.table.table-hover
                 thead
+                    th.text-center
+                        i(style="color: gray;").fas.fa-cog
                     th Código
                     th Descripción   
                     th Costo
@@ -40,10 +42,17 @@ block contenido
                     th Existencia
                     th Mínimo
                     th Máximo
-                    th.text-center Acciones
                 tbody
                     each p in productos
-                        tr(scope="row")
+                        tr.table-metadata(scope="row")
+                            td.text-center
+                                div.btn-group.table-icons
+                                    a(href="/productos/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                        i(style="color: gray;").fas.fa-pencil-alt
+                                    a(href="/productos/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                        i(style="color: white;").fas.fa-trash-alt
+                                    //- a(href="/#").btn.btn-primary.disabled
+                                    //-     i(style="color: white;").fas.fa-cart-plus
                             td.text-center
                                 label.badge.badge-dark #{ p.codigo }
                             td #{ p.descripcion }
@@ -61,11 +70,4 @@ block contenido
                                     span.badge.badge-success #{ parseFloat(p.existencia).toFixed(2) }
                             td #{ parseFloat(p.minimo).toFixed(2) }
                             td #{parseFloat( p.maximo).toFixed(2) }
-                            td.text-center
-                                div.btn-group
-                                    a(href="/productos/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:#ffa500;").btn
-                                        i(style="color: white;").fas.fa-pencil-alt
-                                    a(href="/productos/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
-                                        i(style="color: white;").fas.fa-times
-                                    a(href="/#").btn.btn-primary.disabled
-                                        i(style="color: white;").fas.fa-cart-plus
+                            
