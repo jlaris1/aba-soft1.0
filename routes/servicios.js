@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Servicios = mongoose.model('Servicios'),
     FechaHora = require('./fechahora')
+    TiposServicios = mongoose.model('TiposServicios')
 
 module.exports = {
     todos: function(solicitud, respuesta){
@@ -17,7 +18,14 @@ module.exports = {
         });
     },
     nuevo: function(solicitud, respuesta){
-        respuesta.render("servicios/nuevo");
+        TiposServicios.find({},(error, tiposServicios)=>{
+            if(!error){
+                respuesta.render("servicios/nuevo",{
+                    tiposServicios: tiposServicios
+                });
+            }
+        })
+        
     },
     guardar: function(solicitud, respuesta){
         var data = {

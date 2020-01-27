@@ -33,11 +33,6 @@ block contenido
             });
         });
 
-        //- $(document).ready( function(){
-        //-     $('').on('click', function(){
-
-        //-     })
-        //-     ;
         });
 
     i(style="font-size: 1.5em; margin-right: 10px;").fa.fas.fa-box
@@ -51,7 +46,14 @@ block contenido
                     label | Código
                     .input-group
                         input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
-       
+            .col-lg-7
+                .form-group
+                    label | Tipos de servicios
+                    .input-group
+                        select.form-control(required type="text" name="tipoServicio" placeholder="Tipos de servicio" tabindex="2")
+                            option(value= 0) "seleccione"
+                            each tipos in tiposServicios
+                                option(value=tipos.id) #{tipos.nombre}    
             .col-lg-7
                 .form-group
                     label | Descripción

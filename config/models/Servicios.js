@@ -11,7 +11,7 @@ var servicioSchemaJSON = {
     pVenta: String,
     fecha: String,
     hora: String
-    // tipoServicio: 
+    // tipoServicio: TiposServicios 
 }
 
 // Convertir JSON a Schema Mongoose
