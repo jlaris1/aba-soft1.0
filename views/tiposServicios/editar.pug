@@ -1,0 +1,37 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        label {
+            font-weight: 700;
+        }
+    script.
+        $(document).ready( function(){
+
+        });
+
+    label(style="font-size: 1.5em") Editar servicio
+    .divider(style="margin-bottom: 20px;")
+    form(role="form" method="post" action=`/tiposServicios/actualizar/${tipoServicio.id}?_method=put`)
+        label Generales
+        .row
+            .col-lg-3
+                .form-group
+                    label | Código
+                    .input-group
+                        input.form-control(required type="text" name="codigo" value=tipoServicio.codigo placeholder="Código" tabindex="1")
+            .col-lg-7
+                .form-group
+                    label | Nombre
+                    .input-group
+                        input.form-control(required type="text" name="nombre" value=tipoServicio.nombre placeholder="Nombre" tabindex="2")
+            .col-lg-7
+                .form-group
+                    label | Descripción
+                    .input-group
+                        input.form-control(required type="text" name="descripcion" value=tipoServicio.descripcion placeholder="Descripción" tabindex="3")
+        .divider(style="margin-bottom: 20px; margin-top: 20px;")
+        .row
+            .col-lg-2.align-self-end.ml-auto
+                .form-group
+                    .input-group
+                        input(type="submit" value="Actualizar" tabindex="7").btn.btn-success.form-control

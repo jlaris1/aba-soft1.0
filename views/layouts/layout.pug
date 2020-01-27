@@ -47,6 +47,15 @@ html(lang="es")
 					a.nav-link(href='/')
 						i.fas.fa-fw.fa-home
 						|	Inicio
+				// CATALOGOS
+				li.nav-item.dropdown
+					a#ventasDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-fw.fa-dollar-sign
+						|	Catalogos
+					.dropdown-menu(aria-labelledby='ventasDropdown')
+						a.dropdown-item(href='/tiposServicios/') 
+							i.fas.fa-table
+							|	Tipo de servicio
 				// VENTAS
 				li.nav-item.dropdown
 					a#ventasDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
@@ -73,6 +82,19 @@ html(lang="es")
 						a.dropdown-item(href='/productos/nuevo') 
 							i.fas.fa-plus-circle
 							|	Nuevo Producto
+				// SERVICIOS
+				li.nav-item.dropdown
+					a#productosDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-fw.fa-boxes
+						|	Servicios
+					.dropdown-menu(aria-labelledby='productosDropdown')
+						a.dropdown-item(href='/servicios') 
+							i.fas.fa-table
+							|	Bandeja
+						//.dropdown-divider
+						a.dropdown-item(href='/servicios/nuevo') 
+							i.fas.fa-plus-circle
+							|	Nuevo servicios
 				// INVENTARIOS
 				li.nav-item.dropdown
 					a#inventariosDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')

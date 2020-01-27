@@ -12,6 +12,14 @@ module.exports = function(app){
     var productos = require('../routes/productos');
     var productosRouter = express.Router();
 
+    // SERVICIOS
+    var servicios = require('../routes/servicios');
+    var serviciosRouter = express.Router();
+
+    // TIPOS DE SERVICIOS
+    var tiposServicios = require('../routes/tiposServicios');
+    var tiposServiciosRouter = express.Router();
+
     // VENTAS
     var ventas = require('../routes/ventas');
     var ventasRouter = express.Router();
@@ -44,6 +52,25 @@ module.exports = function(app){
     productosRouter.get('/editar/:id', productos.editar);
     productosRouter.put('/actualizar/:id', productos.actualizar);
     productosRouter.get('/eliminar/:id', productos.eliminar);
+
+     //Servicios
+     app.use('/servicios', serviciosRouter);
+     serviciosRouter.get('/', servicios.todos);
+     serviciosRouter.get('/nuevo', servicios.nuevo);
+     serviciosRouter.post('/guardar', servicios.guardar);
+     serviciosRouter.get('/editar/:id', servicios.editar);
+     serviciosRouter.put('/actualizar/:id', servicios.actualizar);
+     serviciosRouter.get('/eliminar/:id', servicios.eliminar);
+
+     //tipos de Servicios
+     app.use('/tiposServicios', tiposServiciosRouter);
+     tiposServiciosRouter.get('/', tiposServicios.todos);
+     tiposServiciosRouter.get('/nuevo', tiposServicios.nuevo);
+     tiposServiciosRouter.post('/guardar', tiposServicios.guardar);
+     tiposServiciosRouter.get('/editar/:id', tiposServicios.editar);
+     tiposServiciosRouter.put('/actualizar/:id', tiposServicios.actualizar);
+     tiposServiciosRouter.get('/eliminar/:id', tiposServicios.eliminar);
+
 
     //Ventas
     app.use('/ventas', ventasRouter);

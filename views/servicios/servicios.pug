@@ -1,0 +1,58 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        .badge {
+            font-size: 16px;
+        }
+        
+        body {
+            background-color: #e9ecef;
+        }
+
+        input {
+            -webkit-appearance:listbox}
+        }
+    script.
+        $(document).ready( function(){
+            $('#products').DataTable();
+        });
+    label(style="font-size: 1.5em") Administrar servicios
+    .divider(style="margin-bottom: 20px;")
+    .text-right(style="margin-bottom: 25px;") 
+        div.btn-group
+            a(href="/servicios/nuevo").btn.btn-primary
+                i.fas.fa-plus-circle
+                |   Nuevo
+            a(href="#o").btn.btn-primary.disabled
+                i.fas.fa-file-pdf
+                |   Reportes
+    .card
+        .card-tittle
+        .card-body
+            table#products.table.table-hover(style="margin-bottom: 15px;")
+                thead
+                    th Código
+                    th Descripción   
+                    th Costo
+                    th Utilidad
+                    th % Utilidad
+                    th Precio Venta
+                    th.text-center Acciones
+                tbody
+                    each p in servicios
+                        tr(scope="row")
+                            td.text-center
+                                label.badge.badge-dark #{ p.codigo }
+                            td #{ p.descripcion }
+                            td $ #{ parseFloat(p.costo).toFixed(2) }
+                            td $ #{ parseFloat(p.utilidad).toFixed(2) }
+                            td #{ parseFloat(p.pUtilidad).toFixed(2) } %
+                            td $ #{ parseFloat(p.pVenta).toFixed(2) }
+                            td.text-center
+                                div.btn-group
+                                    a(href="/servicios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:#ffa500;").btn
+                                        i(style="color: white;").fas.fa-pencil-alt
+                                    a(href="/servicios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                        i(style="color: white;").fas.fa-times
+                                    a(href="/#").btn.btn-primary.disabled
+                                        i(style="color: white;").fas.fa-cart-plus
