@@ -36,7 +36,8 @@ module.exports = {
             pUtilidad: solicitud.body.pUtilidad,
             pVenta: solicitud.body.pVenta,
             fecha: FechaHora.obtenerfecha(),
-            hora: FechaHora.obtenerhora()
+            hora: FechaHora.obtenerhora(),
+            tiposServicios: solicitud.body.tiposServicios
         }
 
         console.log(data);

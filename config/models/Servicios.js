@@ -10,8 +10,8 @@ var servicioSchemaJSON = {
     pUtilidad: String,
     pVenta: String,
     fecha: String,
-    hora: String
-    // tipoServicio: TiposServicios 
+    hora: String,
+    tipoServicio: { type: Schema.ObjectId, ref: "TiposServicios"} 
 }
 
 // Convertir JSON a Schema Mongoose

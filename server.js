@@ -27,7 +27,7 @@ const dbConLocal = "mongodb://localhost:27017/llaosserv";
 
 mongoose
 .connect(dbConCloud, {
-	//useUnifiedTopology: true,
+	useUnifiedTopology: true,
 	useNewUrlParser: true,
 })
 .then(() => console.log('DB Connected!'))
