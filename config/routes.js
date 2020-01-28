@@ -29,6 +29,10 @@ module.exports = function(app){
     var clientes = require('../routes/clientes');
     var clientesRouter = express.Router();
 
+  // CLIENTES
+  var inventarios = require('../routes/inventarios');
+  var inventariosRouter = express.Router();
+
     //Sesion
     app.get('/', sesion.login);
     app.post('/inicio', sesion.inicio);
@@ -83,5 +87,14 @@ module.exports = function(app){
     clientesRouter.get('/', clientes.todos);
     clientesRouter.get('/nuevo', clientes.nuevo);
     clientesRouter.post('/guardar', clientes.guardar);
+
+      //tipos de Servicios
+      app.use('/inventarios', inventariosRouter);
+      inventariosRouter.get('/', inventarios.todos);
+      inventariosRouter.get('/nuevo', inventarios.nuevo);
+      inventariosRouter.post('/guardar', inventarios.guardar);
+      inventariosRouter.get('/editar/:id', inventarios.editar);
+      inventariosRouter.put('/actualizar/:id', inventarios.actualizar);
+      inventariosRouter.get('/eliminar/:id', inventarios.eliminar);
 
 }

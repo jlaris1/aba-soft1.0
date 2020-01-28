@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Productos = mongoose.model('Productos'),
     FechaHora = require('./fechahora')
+    Inventario = mongoose.model('Inventarios')
 
 module.exports = {
     todos: function(solicitud, respuesta){
@@ -43,7 +44,19 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
-                respuesta.redirect("/productos/nuevo")
+                var descripcion = 'Codigo: ' + producto.codigo + ', Nombre: ' + producto.nombre
+                var inventarioAux = {
+                    tipo: '',
+                    descripcion: descripcion,
+                    stock: producto.unidad,
+                    entradas: 0
+                }
+
+                var inventario = new Inventario(inventarioAux);
+                inventario.save(function(error){
+                    respuesta.redirect("/productos/nuevo")
+                })
+                
             }
         });
     },

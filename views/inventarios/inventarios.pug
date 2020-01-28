@@ -1,0 +1,52 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        .badge {
+            font-size: 16px;
+        }
+        
+        body {
+            background-color: #e9ecef;
+        }
+
+        input {
+            -webkit-appearance:listbox}
+        }
+    script.
+        $(document).ready( function(){
+            $('#products').DataTable();
+        });
+    label(style="font-size: 1.5em") Inventario
+    .divider(style="margin-bottom: 20px;")
+    .text-right(style="margin-bottom: 25px;") 
+        div.btn-group
+            //- a(href="/productos/nuevo").btn.btn-primary
+            //-     i.fas.fa-plus-circle
+            //-     |   Nuevo
+            a(href="#o").btn.btn-primary.disabled
+                i.fas.fa-file-pdf
+                |   Reportes
+    .card
+        .card-tittle
+        .card-body.table-color-new
+            table#products.table.table-hover
+                thead
+                    th.text-center
+                        i(style="color: gray;").fas.fa-cog
+                    th Tipo
+                    th Descripción   
+                    th Stock
+                    th Entrada
+                tbody
+                    each p in inventarios
+                        tr.table-metadata(scope="row")
+                            td.text-center
+                                div.btn-group.table-icons
+                                    a(href="/inventarios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                        i(style="color: gray;").fas.fa-pencil-alt
+                                    a(href="/inventarios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                        i(style="color: white;").fas.fa-trash-alt
+                            td #{ p.tipo }
+                            td #{ p.descripcion }
+                            td #{ p.stock }
+                            td #{ p.entradas }                           
