@@ -5,18 +5,19 @@ var mongoose = require('mongoose'),
 
 module.exports = {
     todos: function(solicitud, respuesta){
-        Servicios.find( function(error, servicios){
-            if(error){
-                console.log(error);
-            } else {
+        Servicios.find({}, function(error, servicios){
+                TiposServicios.populate(servicios, {path: "tipoServicio"}, function(err, servicios)
+            {
                 console.log(servicios);
                 respuesta.render("servicios/servicios", 
-                    {
-                       servicios: servicios
-                    }
+                {
+                   servicios: servicios
+                }
                 );
-            }
+            });
+                
         });
+        
     },
     nuevo: function(solicitud, respuesta){
         TiposServicios.find({},(error, tiposServicios)=>{
