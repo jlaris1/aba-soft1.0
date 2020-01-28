@@ -46,7 +46,7 @@ module.exports = {
             } else {
                 var descripcion = 'Codigo: ' + data.codigo + ', Nombre: ' + data.nombre
                 var inventarioAux = {
-                    tipo: '',
+                    tipo: 'Producto',
                     descripcion: descripcion,
                     stock: data.existencia,
                     entradas: 0
