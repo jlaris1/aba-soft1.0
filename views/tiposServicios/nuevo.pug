@@ -29,30 +29,28 @@ block contenido
             });
         });
 
-    i(style="font-size: 1.5em; margin-right: 10px;").fa.fas.fa-box
-    label(style="font-size: 1.5em") Nuevo tipo de servicio
     .divider(style="margin-bottom: 20px;")
     form(role="form" method="post" action="/tiposServicios/guardar")
-        label Generales
-        .row
-            .col-lg-3
-                .form-group
-                    label | Código
-                    .input-group
-                        input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
-            .col-lg-7
-                .form-group
-                    label | Nombre
-                    .input-group
+        div.container-form
+            div.center-margin
+                div.icono-form
+                    div.icono-intermediate
+                        i.fa.fas.fa-box
+                div.titulo-form
+                    label Nuevo tipo de servicio
+                div.izquierdo-bloque
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
+                    .form-group
                         input.form-control(required type="text" name="nombre" placeholder="Nombre" tabindex="2")
-            .col-lg-7
-                .form-group
-                    label | Descripción
-                    .input-group
-                        input.form-control(required type="text" name="descripcion" placeholder="Descripción" tabindex="3")
-        .divider(style="margin-bottom: 20px; margin-top: 20px;")
-        .row
-            .col-lg-2.align-self-end.ml-auto
-                .form-group
-                    .input-group
-                        input(type="submit" value="Guardar" tabindex="7").btn.btn-success.form-control
+                div.derecho-bloque
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="descripcion" placeholder="Descripción" tabindex="3")
+                .divider(style="margin-bottom: 20px; margin-top: 20px;")
+                .row
+                    .col-lg-2.align-self-end.ml-auto
+                        .form-group
+                            .input-group.btn-form
+                                input(type="submit" value="Guardar" tabindex="7").form-control
