@@ -28,25 +28,24 @@ block contenido
                 |   Reportes
     .card
         .card-tittle
-        .card-body
-            table#products.table.table-hover(style="margin-bottom: 15px;")
+        .card-body.table-color-new
+            table#products.table.table-hover
                 thead
-                    th Código
+                    th.text-center(style="width:70px;")
+                        i(style="color: gray;").fas.fa-cog
+                    th.text-center Código
                     th Nombre
                     th Descripción   
-                    th.text-center Acciones
                 tbody
                     each p in tiposServicios
                         tr(scope="row")
                             td.text-center
+                                div.btn-group.table-icons
+                                    a(href="/tiposServicios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                        i(style="color: gray;").fas.fa-pencil-alt
+                                    a(href="/tiposServicios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                        i(style="color: white;").fas.fa-trash-alt
+                            td.text-center
                                 label.badge.badge-dark #{ p.codigo }
                             td #{p.nombre}
                             td #{ p.descripcion }
-                            td.text-center
-                                div.btn-group
-                                    a(href="/tiposServicios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:#ffa500;").btn
-                                        i(style="color: white;").fas.fa-pencil-alt
-                                    a(href="/tiposServicios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
-                                        i(style="color: white;").fas.fa-times
-                                    a(href="/#").btn.btn-primary.disabled
-                                        i(style="color: white;").fas.fa-cart-plus

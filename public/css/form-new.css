@@ -85,10 +85,12 @@
     width: 45%;
     display: inline-block;
     margin-right:10%;
+    vertical-align: top;
 }
 .derecho-bloque{
     width: 45%;
     display: inline-block;
+    vertical-align: top;
 }
 .titulo-form{
     font-family: 'Open Sans', sans-serif;
