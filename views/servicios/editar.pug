@@ -47,10 +47,10 @@ block contenido
                 .form-group
                     label | Tipos de servicios
                     .input-group
-                        select.form-control(required type="text" name="tipoServicio" placeholder="Tipos de servicio" tabindex="2")
+                        select.form-control(required type="text" name="tipoServicio" value=servicio.tipoServicio placeholder="Tipos de servicio" tabindex="2")
                             option(value= 0) "seleccione"
                             each tipos in tiposServicios
-                                option(value=tipos.id) #{tipos.nombre} 
+                                option(value=tipos.id, selected=(servicio.tipoServicio == tipos.id)) #{tipos.nombre}
             .col-lg-7
                 .form-group
                     label | Descripción

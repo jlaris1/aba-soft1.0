@@ -51,7 +51,7 @@ block contenido
                                         i(style="color: white;").fas.fa-trash-alt
                             td.text-center
                                 label.badge.badge-dark #{ p.codigo }
-                            td #{p.tipoServicio}    
+                            td #{p.tipoServicio.nombre}    
                             td #{ p.descripcion }
                             td $ #{ parseFloat(p.costo).toFixed(2) }
                             td $ #{ parseFloat(p.utilidad).toFixed(2) }
