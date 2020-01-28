@@ -32,6 +32,7 @@ block contenido
             table#products.table.table-hover(style="margin-bottom: 15px;")
                 thead
                     th Código
+                    th Tipo de servicio
                     th Descripción   
                     th Costo
                     th Utilidad
@@ -43,6 +44,7 @@ block contenido
                         tr(scope="row")
                             td.text-center
                                 label.badge.badge-dark #{ p.codigo }
+                            td #{p.tipoServicio}    
                             td #{ p.descripcion }
                             td $ #{ parseFloat(p.costo).toFixed(2) }
                             td $ #{ parseFloat(p.utilidad).toFixed(2) }

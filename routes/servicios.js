@@ -9,6 +9,7 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
+                console.log(servicios);
                 respuesta.render("servicios/servicios", 
                     {
                        servicios: servicios
@@ -37,7 +38,7 @@ module.exports = {
             pVenta: solicitud.body.pVenta,
             fecha: FechaHora.obtenerfecha(),
             hora: FechaHora.obtenerhora(),
-            tiposServicios: solicitud.body.tiposServicios
+            tipoServicio: solicitud.body.tipoServicio
         }
 
         console.log(data);
@@ -57,11 +58,21 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
-                respuesta.render("servicios/editar", 
+                console.log(servicio);
+                TiposServicios.find({},(error, tiposServicios)=>{
+                    if(!error){
+
+                        respuesta.render("servicios/editar", 
                     {
-                       servicio: servicio 
+                        tiposServicios: tiposServicios,
+                        servicio: servicio 
+                       
+                    });
                     }
-                );
+                })
+
+
+                
             }
         });
     },
@@ -76,6 +87,7 @@ module.exports = {
             utilidad: solicitud.body.utilidad,
             pUtilidad: solicitud.body.pUtilidad,
             pVenta: solicitud.body.pVenta,
+            tipoServicio: solicitud.body.tipoServicio
         };
 
         console.log(data);
