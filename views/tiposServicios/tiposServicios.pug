@@ -38,7 +38,7 @@ block contenido
                     th Descripción   
                 tbody
                     each p in tiposServicios
-                        tr(scope="row")
+                        tr.table-metadata(scope="row")
                             td.text-center
                                 div.btn-group.table-icons
                                     a(href="/tiposServicios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
