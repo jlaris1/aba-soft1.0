@@ -18,36 +18,41 @@ block contenido
             a(href="#o").btn.btn-primary.disabled
                 i.fas.fa-file-pdf
                 |   Reportes
-    table#ventas.table.table-hover
-            thead
-                th Código
-                th Ticket  
-                th Cliente 
-                th Subtotal
-                th IVA
-                th Total
-                th Pago Con
-                th Cambio
-                th Fecha
-                th Hora
-                th.text-center Acciones
-            tbody
-                each v in ventas
-                    tr(scope="row")
-                        td.text-center
-                            label.badge.badge-dark #{ v.folio }
-                        td.text-center
-                            label.badge.badge-dark #{ v.noTicket }
-                        td #{ v.cliente}
-                        td $ #{parseFloat( v.subtotal).toFixed(2) }
-                        td $ #{parseFloat( v.iva).toFixed(2) }
-                        td $ #{parseFloat( v.total).toFixed(2) }
-                        td $ #{parseFloat( v.pagoCon).toFixed(2) }
-                        td $ #{parseFloat( v.cambio).toFixed(2) }
-                        td #{ v.fecha }
-                        td #{ v.hora }
-                        td.text-center
-                            div.btn-group
-                                a(href="/ventas/ver/" + v.id , data-toggle="tooltip", data-placement="top", title="Ver detalles").btn.btn-info
-                                    i(style="color: white;").fas.fa-eye
+    .card
+        .card-tittle
+        .card-body.table-color-new
+            table#ventas.table.table-hover
+                    thead
+                        th.text-center
+                                i(style="color: gray;").fas.fa-cog
+                        th.text-center Código
+                        th.text-center Ticket  
+                        th Cliente 
+                        th Subtotal
+                        th IVA
+                        th Total
+                        th Pago Con
+                        th Cambio
+                        th Fecha
+                        th Hora
+                    tbody
+                        each v in ventas
+                            tr(scope="row")
+                                td.text-center
+                                    div.btn-group
+                                        a(href="/ventas/ver/" + v.id , data-toggle="tooltip", data-placement="top", title="Ver detalles" style="background-color:white; border:solid 1px #80808085").btn
+                                            i(style="color: gray;").fas.fa-eye
+                                td.text-center
+                                    label.badge.badge-dark #{ v.folio }
+                                td.text-center
+                                    label.badge.badge-dark #{ v.noTicket }
+                                td #{ v.cliente}
+                                td $ #{parseFloat( v.subtotal).toFixed(2) }
+                                td $ #{parseFloat( v.iva).toFixed(2) }
+                                td $ #{parseFloat( v.total).toFixed(2) }
+                                td $ #{parseFloat( v.pagoCon).toFixed(2) }
+                                td $ #{parseFloat( v.cambio).toFixed(2) }
+                                td #{ v.fecha }
+                                td #{ v.hora }
+                        
                    

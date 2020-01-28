@@ -6,43 +6,82 @@ block contenido
         }
     script.
         $(document).ready( function(){
-        });
 
+            // Asignar precio en base a utilidad al 15%.
+            $('#costo').on('keyup', function(){
+                $('#pVenta').val((parseFloat(this.value) * 1.15).toFixed(2));
+                $('#utilidad').val((parseFloat($('#pVenta').val()) - parseFloat(this.value)).toFixed(2));
+                $('#pUtilidad').val(15.00);                
+            });
+
+            // Asignar valor de inventario en base a existencia
+            $('#existencia').on('keyup', function(){
+                $('#vInventario').val((parseFloat(this.value) * parseFloat($('#costo').val())).toFixed(2))
+            });
+
+            $('#pVenta').on('keyup', function(){
+                $('#utilidad').val((parseFloat(this.value) - parseFloat($('#costo').val())).toFixed(2));
+                var utilidad = ((parseFloat( $('#utilidad').val()) * 100) / parseFloat($('#costo').val())).toFixed(2);
+                $('#pUtilidad').val(utilidad);
+            });
+
+            // Asignar precio de venta en base a utilidad
+            $('#pUtilidad').on('keyup', function(){
+                var utilidad = (parseFloat($('#costo').val()) * (parseFloat(this.value) / 100)).toFixed(2)
+                $('#pVenta').val((parseFloat(utilidad) + parseFloat($('#costo').val())).toFixed(2));
+                $('#utilidad').val((parseFloat(utilidad)).toFixed(2));
+            });
+        });
     .divider(style="margin-bottom: 20px;")
-    form(role="form" method="post" action="/clientes/guardar")
-        div.container-form
+    form(role="form" method="post" action="/productos/guardar")
+         div.container-form
             div.center-margin
                 div.icono-form
                     div.icono-intermediate
-                        i.fa.fas.fa-handshake
+                        i.fa.fas.fa-box
                 div.titulo-form
-                    label Nuevo Cliente
+                    label Nuevo Producto
                 div.izquierdo-bloque
                     .form-group
                         .input-group
-                            input.form-control(required type="text" name="codigo" placeholder="Código *" tabindex="1")
+                            input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
                     .form-group
                         .input-group
-                            input.form-control(required type="text" name="nombre" placeholder="Descripción *" tabindex="2")
+                            input.form-control(required type="text" name="descripcion" placeholder="Descripción" tabindex="2")
                     .form-group
                         .input-group
-                            select.form-control(required type="text" name="identificacion" placeholder="Identificación *" tabindex="3")
+                            select.form-control(required type="text" name="unidad" placeholder="Unidad" tabindex="3")
                                 option(value=0) << Seleccione >>
-                                option(value="INE") INE
-                                option(valie="Licencia") Licencia
+                                option(value="PZA") PZA
+                                option(valie="KGS") KGS
+                    .form-group
+                        .input-group
+                            input#pUtilidad.form-control(type="text" name="pUtilidad" placeholder="% Utilidad")
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="minimo" placeholder="Mínimo" value="0" tabindex="5")
+                    .form-group
+                        .input-group
+                            input#vInventario.form-control(readonly type="text" placeholder="Valor Inventario" value="0")
                 div.derecho-bloque
                     .form-group
                         .input-group
-                            input.form-control(required type="text" name="noIdentificacion" placeholder="No. Identificación *" tabindex="4")
+                            input#costo.form-control(required type="text" name="costo" placeholder="Precio Unitario" tabindex="4")
                     .form-group
                         .input-group
-                            input.form-control(required type="text" name="limiteCredito" placeholder="Límite de Crédito *" tabindex="5")
+                            input#pVenta.form-control(type="text" name="pVenta" placeholder="Precio Venta")
                     .form-group
                         .input-group
-                            input.form-control(readonly type="text" name="saldo" placeholder="Saldo Actual *")
+                            input#utilidad.form-control(type="text" name="utilidad" placeholder="Utilidad")
+                    .form-group
+                        .input-group
+                            input#existencia.form-control(required type="text" name="existencia" placeholder="Cantidad" tabindex="4")
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="maximo" placeholder="Máximo" value="0" tabindex="6")
                 .divider(style="margin-bottom: 20px; margin-top: 20px;")
                 .row
                     .col-lg-2.align-self-end.ml-auto
                         .form-group
                             .input-group.btn-form
-                                input(type="submit" value="Guardar" tabindex="6").form-control
+                                input(type="submit" value="Guardar" tabindex="7").form-control
