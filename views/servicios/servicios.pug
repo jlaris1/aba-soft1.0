@@ -42,9 +42,9 @@ block contenido
                     th Precio Venta
                 tbody
                     each p in servicios
-                        tr(scope="row")
+                        tr.table-metadata(scope="row")
                             td.text-center
-                                div.btn-group
+                                div.btn-group.table-icons
                                     a(href="/servicios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
                                         i(style="color: gray;").fas.fa-pencil-alt
                                     a(href="/servicios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger

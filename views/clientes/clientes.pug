@@ -18,33 +18,37 @@ block contenido
             a(href="#o").btn.btn-primary.disabled
                 i.fas.fa-file-pdf
                 |   Reportes
-
-    table#clientes.table.table-hover
-            thead
-                th Código
-                th Nombre   
-                th Identificación
-                th No. Identificación
-                th Límite Crédito
-                th Saldo
-                th Fecha
-                th Hora
-                th.text-center Acciones
-            tbody
-                each c in clientes
-                    tr(scope="row")
-                        td.text-center
-                            label.badge.badge-dark #{ c.codigo }
-                        td #{ c.nombre }
-                        td #{ c.identificacion }
-                        td #{ c.noIdentificacion}
-                        td $ #{ parseFloat(c.limiteCredito).toFixed(2) }
-                        td $ #{ parseFloat(c.saldo).toFixed(2) }
-                        td #{ c.fecha }
-                        td #{ c.hora }
-                        td.text-center
-                            div.btn-group
-                                a(href="/clientes/editar/" + c.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:#ffa500;").btn
-                                    i(style="color: white;").fas.fa-pencil-alt
-                                a(href="/clientes/eliminar/" + c.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
-                                    i(style="color: white;").fas.fa-times
+    .card
+        .card-tittle
+        .card-body.table-color-new
+            table#clientes.table.table-hover
+                    thead
+                        th.text-center
+                                    i(style="color: gray;").fas.fa-cog
+                        th Código
+                        th Nombre   
+                        th Identificación
+                        th No. Identificación
+                        th Límite Crédito
+                        th Saldo
+                        th Fecha
+                        th Hora
+                    tbody
+                        each c in clientes
+                            tr.table-metadata(scope="row")
+                                td.text-center
+                                    div.btn-group.table-icons
+                                        a(href="/clientes/editar/" + c.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                            i(style="color: gray;").fas.fa-pencil-alt
+                                        a(href="/clientes/eliminar/" + c.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                            i(style="color: white;").fas.fa-trash-alt
+                                td.text-center
+                                    label.badge.badge-dark #{ c.codigo }
+                                td #{ c.nombre }
+                                td #{ c.identificacion }
+                                td #{ c.noIdentificacion}
+                                td $ #{ parseFloat(c.limiteCredito).toFixed(2) }
+                                td $ #{ parseFloat(c.saldo).toFixed(2) }
+                                td #{ c.fecha }
+                                td #{ c.hora }
+                                
