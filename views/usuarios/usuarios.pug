@@ -8,24 +8,29 @@ block contenido
             a(href="/usuarios/nuevo")
                 i.fas.fa-plus-circle
                 |   Nuevo
-    table#products.table.table-hover
-            thead
-                th
-                    |   Nombre   
-                th
-                    |   Usuario
-                th
-                    |   Permisos
-                th.text-center
-                    |   Acciones
-            tbody
-                each usr in usuarios
-                    tr(scope="row")
-                        td #{ usr.nombre }
-                        td #{ usr.usuario }
-                        td #{ usr.permisos }
-                        td.text-center
-                            a(href="/usuarios/editar/#{usr.id}", data-toggle="tooltip", data-placement="top", title="Editar", style="margin-right: 15px;")
-                                i.fas.fa-pencil-alt.text-info.fa-lg
-                            a(data-toggle="tooltip" href="usuarios/eliminar/#{usr.id}" title="Eliminar")
-                                i.fas.fa-minus-circle.text-danger.fa-lg
+    .card
+        .card-tittle
+        .card-body.table-color-new
+            table#products.table.table-hover
+                    thead
+                        th.text-center(style="width:70px;")
+                            i(style="color: gray;").fas.fa-cog
+                        th
+                            |   Nombre   
+                        th
+                            |   Usuario
+                        th
+                            |   Permisos
+                    tbody
+                        each usr in usuarios
+                            tr.table-metadata(scope="row")
+                                td.text-center
+                                    div.btn-group.table-icons
+                                        a(href="/tiposServicios/editar/" + usr.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                            i(style="color: gray;").fas.fa-pencil-alt
+                                        a(href="/tiposServicios/eliminar/" + usr.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                            i(style="color: white;").fas.fa-trash-alt
+                                td #{ usr.nombre }
+                                td #{ usr.usuario }
+                                td #{ usr.permisos }
+                                
