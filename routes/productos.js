@@ -44,11 +44,11 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
-                var descripcion = 'Codigo: ' + producto.codigo + ', Nombre: ' + producto.nombre
+                var descripcion = 'Codigo: ' + data.codigo + ', Nombre: ' + data.nombre
                 var inventarioAux = {
-                    tipo: '',
+                    tipo: 'Producto',
                     descripcion: descripcion,
-                    stock: producto.unidad,
+                    stock: data.existencia,
                     entradas: 0
                 }
 
