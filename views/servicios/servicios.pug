@@ -28,9 +28,11 @@ block contenido
                 |   Reportes
     .card
         .card-tittle
-        .card-body
-            table#products.table.table-hover(style="margin-bottom: 15px;")
+        .card-body.table-color-new
+            table#products.table.table-hover
                 thead
+                    th.text-center
+                        i(style="color: gray;").fas.fa-cog
                     th Código
                     th Tipo de servicio
                     th Descripción   
@@ -38,10 +40,15 @@ block contenido
                     th Utilidad
                     th % Utilidad
                     th Precio Venta
-                    th.text-center Acciones
                 tbody
                     each p in servicios
                         tr(scope="row")
+                            td.text-center
+                                div.btn-group
+                                    a(href="/servicios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                        i(style="color: gray;").fas.fa-pencil-alt
+                                    a(href="/servicios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                        i(style="color: white;").fas.fa-trash-alt
                             td.text-center
                                 label.badge.badge-dark #{ p.codigo }
                             td #{p.tipoServicio}    
@@ -50,11 +57,4 @@ block contenido
                             td $ #{ parseFloat(p.utilidad).toFixed(2) }
                             td #{ parseFloat(p.pUtilidad).toFixed(2) } %
                             td $ #{ parseFloat(p.pVenta).toFixed(2) }
-                            td.text-center
-                                div.btn-group
-                                    a(href="/servicios/editar/" + p.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:#ffa500;").btn
-                                        i(style="color: white;").fas.fa-pencil-alt
-                                    a(href="/servicios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
-                                        i(style="color: white;").fas.fa-times
-                                    a(href="/#").btn.btn-primary.disabled
-                                        i(style="color: white;").fas.fa-cart-plus
+                            
