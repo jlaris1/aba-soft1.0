@@ -35,55 +35,47 @@ block contenido
 
         });
 
-    i(style="font-size: 1.5em; margin-right: 10px;").fa.fas.fa-box
-    label(style="font-size: 1.5em") Nuevo servicio
     .divider(style="margin-bottom: 20px;")
     form(role="form" method="post" action="/servicios/guardar")
-        label Generales
-        .row
-            .col-lg-3
-                .form-group
-                    label | Código
-                    .input-group
-                        input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
-            .col-lg-7
-                .form-group
-                    label | Tipos de servicios
-                    .input-group
-                        select.form-control(required type="text" name="tipoServicio" placeholder="Tipos de servicio" tabindex="2")
-                            option(value= 0) "seleccione"
-                            each tipos in tiposServicios
-                                option(value=tipos.id) #{tipos.nombre}    
-            .col-lg-7
-                .form-group
-                    label | Descripción
-                    .input-group
-                        input.form-control(required type="text" name="descripcion" placeholder="Descripción" tabindex="3")
-        .row
-            .col-lg-3
-                .form-group
-                    label | Costo
-                    .input-group
-                        input#costo.form-control(required type="text" name="costo" placeholder="Precio Unitario" tabindex="4")
-            .col-lg-3
-                .form-group
-                    label | Precio Venta
-                    .input-group
-                        input#pVenta.form-control(type="text" name="pVenta" placeholder="Precio Venta")
-            .col-lg-3
-                .form-group
-                    label | Utilidad
-                    .input-group
-                        input#utilidad.form-control(type="text" name="utilidad" placeholder="Utilidad")
-            .col-lg-3
-                .form-group
-                    label | % Utilidad
-                    .input-group
-                        input#pUtilidad.form-control(type="text" name="pUtilidad" placeholder="% Utilidad")
-
-        .divider(style="margin-bottom: 20px; margin-top: 20px;")
-        .row
-            .col-lg-2.align-self-end.ml-auto
-                .form-group
-                    .input-group
-                        input(type="submit" value="Guardar" tabindex="7").btn.btn-success.form-control
+        div.container-form
+            div.center-margin
+                div.icono-form
+                    div.icono-intermediate
+                        i.fa.fas.fa-box
+                div.titulo-form
+                    label Nuevo servicio
+                div.izquierdo-bloque
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="codigo" placeholder="Código" tabindex="1")
+                    .form-group
+                        .input-group
+                            select.form-control(required type="text" name="tipoServicio" placeholder="Tipos de servicio" tabindex="2")
+                                option(value= 0) Seleccione
+                                each tipos in tiposServicios
+                                    option(value=tipos.id) #{tipos.nombre}
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="descripcion" placeholder="Descripción" tabindex="3")
+                    .form-group
+                        .input-group
+                            input#utilidad.form-control(type="text" name="utilidad" placeholder="Utilidad")
+                div.derecho-bloque
+                    .form-group
+                        .input-group
+                            input#costo.form-control(required type="text" name="costo" placeholder="Precio Unitario" tabindex="4")
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="limiteCredito" placeholder="Límite de Crédito *" tabindex="5")
+                    .form-group
+                        .input-group
+                            input#pVenta.form-control(type="text" name="pVenta" placeholder="Precio Venta")
+                    .form-group
+                        .input-group
+                            input#pUtilidad.form-control(type="text" name="pUtilidad" placeholder="% Utilidad")
+                .divider(style="margin-bottom: 20px; margin-top: 20px;")
+                .row
+                    .col-lg-2.align-self-end.ml-auto
+                        .form-group
+                            .input-group.btn-form
+                                input(type="submit" value="Guardar" tabindex="7").form-control
