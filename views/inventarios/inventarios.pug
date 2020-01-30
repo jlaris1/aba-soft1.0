@@ -13,6 +13,11 @@ block contenido
             -webkit-appearance:listbox}
         }
     script.
+        function myFunction(dato, dato2){
+                console.log($("#"+dato.id).val());
+                console.log(dato2);
+
+        } 
         $(document).ready( function(){
             $('#products').DataTable();
 
@@ -20,11 +25,17 @@ block contenido
             $('#entradas').on('dblclick', function(){
                 $alert('test');
             })
-
+            $('.enviar-alert').on('dblclick', function(){
+                $alert('kie');
+            })
             $('#pUtilidad').on('keyup', function(){
                 var utilidad = (parseFloat($('#costo').val()) * (parseFloat(this.value) / 100)).toFixed(2)
                 $('#pVenta').val((parseFloat(utilidad) + parseFloat($('#costo').val())).toFixed(2));
                 $('#utilidad').val((parseFloat(utilidad)).toFixed(2));
+            });
+            
+            $(".enviar-alert").click(function(){
+            alert("The paragraph was clicked.");
             });
         });
     label(style="font-size: 1.5em") Inventario
@@ -34,6 +45,7 @@ block contenido
             a(href="#o").btn.btn-primary.disabled
                 i.fas.fa-file-pdf
                 |   Reportes
+    div.enviar-alert(style="height:50px;width:50px;background:red;")
     .card
         .card-tittle
         .card-body.table-color-new
@@ -46,12 +58,12 @@ block contenido
                     th Stock
                     th Entrada
                 tbody
-                    each p in inventarios
+                    each p, index in inventarios
                         tr.table-metadata(scope="row")
                             td.text-center
                                 div.btn-group.table-icons
                                     //- input.type=button 
-                                    button(onClick="guardarItemTable()") GO
+                                    button(onclick=`myFunction(${'entrada'+index}, '${p.id}')`) GO
                                     a(href="#o" ,action=`/inventarios/actualizar/${p.id}?_method=put` data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
                                         i(style="color: gray;").fas.fa-pencil-alt
                                     a(href="/inventarios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
@@ -59,6 +71,6 @@ block contenido
                             td #{ p.tipo }
                             td #{ p.descripcion }
                             td #{ p.stock }
-                            td 
+                            td  
                                 .input-group
-                                    input#entradas.form-control(required type="text" name="entradas" value=p.entradas placeholder="entradas")                       
+                                    input.form-control(required id='entrada'+index type="text" name="entradas" value=p.entradas  placeholder="entradas")                       
