@@ -45,7 +45,6 @@ block contenido
             a(href="#o").btn.btn-primary.disabled
                 i.fas.fa-file-pdf
                 |   Reportes
-    div.enviar-alert(style="height:50px;width:50px;background:red;")
     .card
         .card-tittle
         .card-body.table-color-new
@@ -56,21 +55,21 @@ block contenido
                     th Tipo
                     th Descripción   
                     th Stock
-                    th Entrada
+                    th Ultima entrada
                 tbody
                     each p, index in inventarios
                         tr.table-metadata(scope="row")
                             td.text-center
                                 div.btn-group.table-icons
                                     //- input.type=button 
-                                    button(onclick=`myFunction(${'entrada'+index}, '${p.id}')`) GO
-                                    a(href="#o" ,action=`/inventarios/actualizar/${p.id}?_method=put` data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                    //- button(onclick=`myFunction(${'entrada'+index}, '${p.id}')`) GO
+                                    a(href="/inventarios/editar/" + p.id  , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
                                         i(style="color: gray;").fas.fa-pencil-alt
                                     a(href="/inventarios/eliminar/" + p.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
                                         i(style="color: white;").fas.fa-trash-alt
                             td #{ p.tipo }
                             td #{ p.descripcion }
                             td #{ p.stock }
-                            td  
-                                .input-group
-                                    input.form-control(required id='entrada'+index type="text" name="entradas" value=p.entradas  placeholder="entradas")                       
+                            td #{p.entradas}
+                                //- .input-group
+                                //-     input.form-control(required id='entrada'+index type="text" name="entradas" value=p.entradas  placeholder="entradas")                       

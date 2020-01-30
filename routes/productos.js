@@ -44,7 +44,7 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
-                console.log(producto);
+                // console.log(producto);
                 var descripcion = 'Codigo: ' + data.codigo + ', Descripcion: ' + data.descripcion + ', Unidad: ' +data.unidad
                 var inventarioAux = {
                     tipo: 'Producto',
@@ -76,7 +76,9 @@ module.exports = {
         });
     },
     eliminar: function(solicitud, respuesta){
-        
+        Productos.findByIdAndRemove(solicitud.params.id).exec().then(data =>{
+            respuesta.redirect("/productos")
+        })
     },
     actualizar: (solicitud, respuesta) => {
         var data = {

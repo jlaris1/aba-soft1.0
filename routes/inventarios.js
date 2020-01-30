@@ -8,7 +8,6 @@ module.exports = {
                 if(error){
 
                 }else {
-                    // console.log(inventarios);
                     respuesta.render("inventarios/inventarios", 
                     {
                         inventarios: inventarios
@@ -38,8 +37,6 @@ module.exports = {
             productoServicioId: solicitud.body.productoServicioId
         }
 
-        // console.log(data);
-
         var inventario = new Inventarios(data);
 
         inventario.save( function(error){
@@ -56,54 +53,52 @@ module.exports = {
                 console.log(error);
             } else {
                 // console.log(inventario);
-                Productos.findByIdAndUpdate( {"_id": inventario.productoServicioId }, productoAux,(error)=>{
-                    if(error){
-                        console.log(error);
-                    } else {
-                        console.log(inventario);
-                        respuesta.redirect("/inventarios");
-                    }
-                });
-
-                    //     respuesta.render("inventarios/editar", 
-                    // {
-                    //     inventario: inventario 
+                        respuesta.render("inventarios/editar", 
+                    {
+                        inventario: inventario 
                        
-                    // });
+                    });
                 
             }
         });
     },
     eliminar: function(solicitud, respuesta){
-        
+        // Inventarios.deleteOne({"_id": solicitud.params.id})
+        Inventarios.findByIdAndRemove(solicitud.params.id).exec().then(data =>{
+            respuesta.redirect("/inventarios")
+        })
     },
     actualizar: (solicitud, respuesta) => {
+        console.log('solicitud: ',solicitud.body);
         var data = {
             tipo: solicitud.body.tipo,
             descripcion: solicitud.body.descripcion,
-            stock: (solicitud.body.stock + solicitud.body.entradas),
+            stock: (Number.parseInt(solicitud.body.stock) + Number.parseInt(solicitud.body.entradas)),
             entradas: solicitud.body.entradas,
             productoServicioId: solicitud.body.productoServicioId
         };
 
-        console.log(data);
+        console.log('Data: ',data);
+        Inventarios.findById(solicitud.params.id).exec().then(inve => {
+            data.productoServicioId = inve.productoServicioId;
+            console.log('Data: ',data);
+            Inventarios.findByIdAndUpdate( {"_id": solicitud.params.id }, data,(error)=>{
+                if(error){
+                    console.log(error);
+                } else {
+                    Productos.findById({"_id": data.productoServicioId}, function(error, producto){
+                        if(!error){
+                            producto.existencia = data.stock;
+                            Productos.findByIdAndUpdate({"_id": producto.id }, producto,(error)=>{
+                                console.log('producto: ',producto);
+                                respuesta.redirect("/inventarios");
+                            })
+                        }
+                    })
+                    
 
-        Inventarios.findByIdAndUpdate( {"_id": solicitud.params.id }, data,(error)=>{
-            if(error){
-                console.log(error);
-            } else {
-                var productoAux = {
-                    existencia: data.stock
                 }
-                Productos.findByIdAndUpdate( {"_id": data.productoServicioId }, productoAux,(error)=>{
-                    if(error){
-                        console.log(error);
-                    } else {
-                        respuesta.redirect("/inventarios");
-                    }
-                });
-                
-            }
-        });
+            });
+    })
     }
 }

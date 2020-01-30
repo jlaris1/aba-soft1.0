@@ -5,8 +5,8 @@ var mongoose = require('mongoose'),
 var inventarioSchemaJSON = {
     tipo: String,
     descripcion: String,
-    stock: String,
-    entradas: String,
+    stock: Number,
+    entradas: Number,
     productoServicioId: { type: Schema.ObjectId, ref: "Productos"} 
 }
 
