@@ -150,3 +150,7 @@
 .btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) > .btn {
     border-radius: 5px;
 }
+
+.no-colapse {
+    border: 0px #ffffff00;
+}

@@ -4,7 +4,7 @@ block contenido
         .badge {
             font-size: 1.5em;
         }
-        .btn {
+        /*.btn {
             position: relative;
             padding: 12px 30px;
             margin: .3125rem 1px;
@@ -18,8 +18,11 @@ block contenido
             background-color: transparent;
             border: 0;
             border-radius: .2rem;
-            transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1);
-            will-change: box-shadow,transform;
+            /*transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1);*/
+            /*will-change: box-shadow,transform;
+        }*/
+        .btn {
+            border-radius: 5px !important;
         }
     script.
         var productos = [];
@@ -30,10 +33,11 @@ block contenido
         var prod;
         
         $(document).ready( function(){
-            //obtenerfecha();
-            //obtenerhora();
             $("#codigo").focus();
             convertirArray();
+
+            $('#pTable').DataTable();
+            $('#cTable').DataTable();
 
             $('#codigo').on('keyup', function(){
                 var valor = this.value;
@@ -55,8 +59,16 @@ block contenido
                 }   
             });
 
-            $('[data-toggle="tooltip"]').tooltip();
+            //$('[data-toggle="tooltip"]').tooltip();
         });
+
+        function agregarProductoBusqueda(valor){
+            productos.forEach( function(p){
+                if(p.codigo == valor){
+                    registrarArticulo(p, $('#cantidad').val());
+                }
+            });
+        }
 
         function obtenerfecha(){
             var fecha = new Date()
@@ -180,17 +192,20 @@ block contenido
                 importe = (parseFloat(cantidad) * parseFloat(registro.pVenta)).toFixed(2);
 
                 $('#articulos > tbody:last').append(
-                    "<tr class='tr' id='tr" + rowCount + "'>" +
-                    "   <td id='cant" + rowCount + "' class='text-center'>" + cantidad + "</td> " +
+                    "<tr class='table-metadata' id='tr" + rowCount + "'>" +
+                    "   <td class='text-center'>"+
+                    "       <div class='btn-group table-icons'>"+
+                    "           <a id='" + rowCount + "' class='btn btn-danger' href='#', data-toggle='tooltip', data-placement='top', title='Agregar' onclick='eliminarProducto(this.id)'> "+ 
+                    "               <i class='fas fa-minus-circle' style='color: white;'></i>" +
+                    "           </a>" +
+                    "       </div>" +
+                    "   </td> " +
+                    "   <td id='cant" + rowCount + "' class='text-center'>" + registro.codigo + "</td> " +
                     "   <td id='des" + rowCount + "' class='text-right'>" + registro.descripcion + "</td> " +
                     "   <td id='uni" + rowCount + "' class='text-right'>" + registro.unidad + "</td> " +
+                    "   <td id='cant" + rowCount + "' class='text-center'>" + cantidad + "</td> " +
                     "   <td id='pve" + rowCount + "' class='text-right'>" + registro.pVenta + "</td> " +
                     "   <td id='imp" + rowCount + "' class='text-right'>" + importe  + "</td> " +
-                    "   <td class='text-right'>"+
-                    "       <a id='" + rowCount + "' href='#', data-toggle='tooltip', data-placement='top', title='Agregar' onclick='eliminarProducto(this.id)'> "+ 
-                    "          <i class='fas fa-minus-circle text-danger fa-lg'></i>" +
-                    "       </a>" +
-                    "   </td> " +
                     "</tr>"
                 );
 
@@ -293,6 +308,22 @@ block contenido
             $('#totalModal').text($('#total').text());
         }
 
+        function buscarProducto(){  
+            $('#productos_modal').modal('show');
+        }
+
+        function cerrarProductos(){
+            $('#productos_modal').modal('toggle');
+        }
+
+        function cerrarClientes(){
+            $('#clientes').modal('toggle');
+        }
+
+        function buscarCliente(){
+            $('#clientes').modal('show');
+        }
+
         function submit(){
             $('#venta').val(JSON.stringify(venta));
             document.frm.submit();
@@ -301,9 +332,11 @@ block contenido
 
     .btn-group
         label(style="font-size: 1.5em;") Nueva Venta
-        label.badge.badge-dark(style="margin-left: 25px;") CLIENTE: XXX - VENTA GENERAL
+        
     .divider(style="margin-bottom: 20px;")
     .text-right
+        .btn-group.text-left
+            label.badge.badge-dark(style="margin-left: 25px;") CLIENTE: XXX - VENTA GENERAL
         div.btn-group
             label.badge.badge-primary TCK#{nTicket}  
             label.badge.badge-primary VTA#{nTicket}
@@ -324,19 +357,25 @@ block contenido
                     .input-group
                         input#cantidad.form-control(type="text" name="cantidad" placeholder="Cantidad" value="1.00" tabindex="2")
             .col-lg-2(style="margin-top: 32px;")
-                a(href="#")
-                    i(style="font-size: 2.4em;" data-toggle="tooltip", data-placement="top", title="Agregar").text-success.fa.fas.fa-plus-circle
-        .row
-            .col-lg-12
-                table#articulos.table.table-striped
+                .btn-group
+                a(href="#").btn.btn-success
+                    i(style="color: white;" data-toggle="tooltip", data-placement="top", title="Agregar").fa.fas.fa-plus-circle
+                a(href="#productos_modal" data-toggle="modal" data-target="#productos_modal" onclick="buscarProducto()").btn.btn-primary
+                    i(style="color: white;" data-toggle="tooltip", data-placement="top", title="Busca producto").fa.fas.fa-search
+        .card
+            .card-tittle
+            .card-body.table-color-new
+                table#articulos.table.table-hover
                     thead
-                        th.text-center  Cantidad
+                        th.text-center
+                            i(style="color: gray;").fas.fa-cog
+                        th.text-center  Codigo
                         th.text-right   Descripción
                         th.text-right   Unidad
+                        th.text-center  Cantidad
                         th.text-right   Precio Unitario
                         th.text-right   Importe
-                        th
-                    tbody
+                    tbody.no-colapse
         .row.justify-content-end.text-right(style="margin-top: 30px;")
             .col-lg-2
                 label Subtotal
@@ -362,7 +401,7 @@ block contenido
             a(href="#cobrar" data-toggle="modal" data-target="#cobrar" onclick="totales()").btn.btn-success
                 i.fa.fas.fa-dollar-sign(style="color: white;")
                 |   Cobrar
-            a.disabled(href="#").btn.btn-secondary
+            a(href="#clientes" data-toggle="modal" data-target="#clientes" onclick="buscarCliente()").btn.btn-secondary
                 i.fa.fas.fa-user-plus(style="color: white;")
                 |   Cliente
     
@@ -399,3 +438,79 @@ block contenido
                             a(href="#cobrar" data-toggle="modal" data-target="#cobrar" onclick="submit()").btn.btn-success
                                 i.fa.fas.fa-hand-holding-usd(style="color: white;")
                                 |   Terminar
+    
+    .modal#productos_modal(role="dialog" tabindex="-1")
+        .modal-dialog.modal-lg(role="document")
+            .modal-content
+                .modal-header.Popup(style="font-size: 2em; margin: 0;")
+                    .col-lg-12
+                        i.fa.fas.fa-box(style="margin-right: 15px;")
+                        label 
+                            strong Productos
+                .modal-body()
+                    .card
+                        .card-tittle
+                        .card-body.table-color-new
+                            table#pTable.table.table-hover
+                                thead
+                                    th.text-center
+                                        i(style="color: gray;").fas.fa-cog
+                                    th.text-center  Codigo
+                                    th.text-right   Descripción
+                                    th.text-right   Unidad
+                                    th.text-right   Precio Unitario
+                                tbody
+                                    each p in productos
+                                        tr.table-metadata(scope="row")
+                                            td.text-center
+                                                div.btn-group.table-icons
+                                                    a(href="#" id=p.codigo, data-toggle="tooltip", data-placement="top", title="Agregar" onclick="agregarProductoBusqueda(this.id)").btn.btn-success
+                                                        i(style="color: white;").fas.fa-plus-circle
+                                            td.text-center #{p.codigo}
+                                            td.text-center #{p.descripcion}
+                                            td.text-center #{p.unidad}
+                                            td.text-center $ #{parseFloat(p.pVenta).toFixed(2)}
+                .modal-footer
+                    .text-right
+                        .btn-group
+                            a(href="#productos_modal" data-toggle="modal" data-target="#productos_modal" onclick="cerrarProductos()").btn.btn-secondary
+                                i.fa.fas.fa-times-circle(style="color: white;")
+                                |   Cerrar
+
+    .modal#clientes(role="dialog" tabindex="-1")
+            div.modal-dialog.modal-lg(role="document")
+                .modal-content
+                    .modal-header.Popup(style="font-size: 2em; margin: 0;")
+                        .col-lg-12
+                            i.fa.fas.fa-handshake(style="margin-right: 15px;")
+                            label 
+                                strong Clientes
+                    .modal-body()
+                        .card
+                            .card-tittle
+                            .card-body.table-color-new
+                                table#cTable.table.table-hover
+                                    thead
+                                        th.text-center
+                                            i(style="color: gray;").fas.fa-cog
+                                        th.text-center  Codigo
+                                        th.text-right   Nombre
+                                        th.text-right   Saldo
+                                        th.text-right   Limite de crédito
+                                    tbody
+                                        each c in clientes
+                                            tr.table-metadata(scope="row")
+                                                td.text-center
+                                                    div.btn-group.table-icons
+                                                        a(href="#" , data-toggle="tooltip", data-placement="top", title="Agregar" onclick="agregarClienteBusqueda(#{p.codigo})").btn.btn-success
+                                                            i(style="color: white;").fas.fa-plus-circle
+                                                td.text-center #{c.codigo}
+                                                td.text-center #{c.nombre}
+                                                td.text-center $ #{parseFloat(c.saldo).toFixed(2)}
+                                                td.text-center $ #{parseFloat(c.limiteCredito).toFixed(2)}
+                    .modal-footer
+                        .text-right
+                            .btn-group
+                                a(href="#clientes" data-toggle="modal" data-target="#clientes" onclick="cerrarClientes()").btn.btn-secondary
+                                    i.fa.fas.fa-times-circle(style="color: white;")
+                                    |   Cerrar
