@@ -1,14 +1,14 @@
 var mongoose = require('mongoose'),
     Inventarios = mongoose.model('Inventarios'),
     FechaHora = require('./fechahora')
-
+    Productos  = mongoose.model('Productos')
 module.exports = {
     todos: function(solicitud, respuesta){
         Inventarios.find(function(error, inventarios){
                 if(error){
 
                 }else {
-                    console.log(inventarios);
+                    // console.log(inventarios);
                     respuesta.render("inventarios/inventarios", 
                     {
                         inventarios: inventarios
@@ -34,10 +34,11 @@ module.exports = {
             tipo: solicitud.body.tipo,
             descripcion: solicitud.body.descripcion,
             stock: solicitud.body.stock,
-            entradas: solicitud.body.entradas
+            entradas: solicitud.body.entradas,
+            productoServicioId: solicitud.body.productoServicioId
         }
 
-        console.log(data);
+        // console.log(data);
 
         var inventario = new Inventarios(data);
 
@@ -54,13 +55,21 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
-                console.log(inventario);
-    
-                        respuesta.render("inventarios/editar", 
-                    {
-                        inventario: inventario 
+                // console.log(inventario);
+                Productos.findByIdAndUpdate( {"_id": inventario.productoServicioId }, productoAux,(error)=>{
+                    if(error){
+                        console.log(error);
+                    } else {
+                        console.log(inventario);
+                        respuesta.redirect("/inventarios");
+                    }
+                });
+
+                    //     respuesta.render("inventarios/editar", 
+                    // {
+                    //     inventario: inventario 
                        
-                    });
+                    // });
                 
             }
         });
@@ -72,8 +81,9 @@ module.exports = {
         var data = {
             tipo: solicitud.body.tipo,
             descripcion: solicitud.body.descripcion,
-            stock: solicitud.body.stock,
-            entradas: solicitud.body.entradas
+            stock: (solicitud.body.stock + solicitud.body.entradas),
+            entradas: solicitud.body.entradas,
+            productoServicioId: solicitud.body.productoServicioId
         };
 
         console.log(data);
@@ -82,7 +92,17 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
-                respuesta.redirect("/inventarios");
+                var productoAux = {
+                    existencia: data.stock
+                }
+                Productos.findByIdAndUpdate( {"_id": data.productoServicioId }, productoAux,(error)=>{
+                    if(error){
+                        console.log(error);
+                    } else {
+                        respuesta.redirect("/inventarios");
+                    }
+                });
+                
             }
         });
     }

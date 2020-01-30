@@ -6,7 +6,8 @@ var inventarioSchemaJSON = {
     tipo: String,
     descripcion: String,
     stock: String,
-    entradas: String
+    entradas: String,
+    productoServicioId: { type: Schema.ObjectId, ref: "Productos"} 
 }
 
 // Convertir JSON a Schema Mongoose
