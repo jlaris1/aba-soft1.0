@@ -36,7 +36,7 @@ module.exports = {
             hora: FechaHora.obtenerhora()
         }
 
-        console.log(data);
+        // console.log(data);
 
         var producto = new Productos(data);
 
@@ -44,12 +44,14 @@ module.exports = {
             if(error){
                 console.log(error);
             } else {
-                var descripcion = 'Codigo: ' + data.codigo + ', Nombre: ' + data.nombre
+                console.log(producto);
+                var descripcion = 'Codigo: ' + data.codigo + ', Descripcion: ' + data.descripcion + ', Unidad: ' +data.unidad
                 var inventarioAux = {
                     tipo: 'Producto',
                     descripcion: descripcion,
                     stock: data.existencia,
-                    entradas: 0
+                    entradas: 0,
+                    productoServicioId: producto.id
                 }
 
                 var inventario = new Inventario(inventarioAux);
@@ -90,7 +92,7 @@ module.exports = {
             maximo: solicitud.body.maximo
         };
 
-        console.log(data);
+        // console.log(data);
 
         Productos.findByIdAndUpdate( {"_id": solicitud.params.id }, data,(error)=>{
             if(error){
