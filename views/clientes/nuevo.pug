@@ -8,7 +8,6 @@ block contenido
         $(document).ready( function(){
         });
 
-    .divider(style="margin-bottom: 20px;")
     form(role="form" method="post" action="/clientes/guardar")
         div.container-form
             div.center-margin
@@ -39,7 +38,7 @@ block contenido
                             input.form-control(required type="text" name="limiteCredito" placeholder="Límite de Crédito *" tabindex="5")
                     .form-group
                         .input-group
-                            input.form-control(readonly type="text" name="saldo" placeholder="Saldo Actual *")
+                            input.form-control( type="text" name="saldo" placeholder="Saldo Actual *")
                 .divider(style="margin-bottom: 20px; margin-top: 20px;")
                 .row
                     .col-lg-2.align-self-end.ml-auto

@@ -29,9 +29,13 @@ module.exports = function(app){
     var clientes = require('../routes/clientes');
     var clientesRouter = express.Router();
 
-  // CLIENTES
-  var inventarios = require('../routes/inventarios');
-  var inventariosRouter = express.Router();
+    // CAJAS
+    var cajas = require('../routes/cajas');
+    var cajasRouter = express.Router();
+
+    // INVENTARIOS
+    var inventarios = require('../routes/inventarios');
+    var inventariosRouter = express.Router();
 
     //Sesion
     app.get('/', sesion.login);
@@ -47,6 +51,16 @@ module.exports = function(app){
     usuariosRouter.post('/guardar', usuarios.guardar);
     //usuariosRouter.post('/editar/:id', usuarios.editar);
     //usuariosRouter.post('/eliminar/:id', usuarios.eliminar);
+
+    //Cajas
+    app.use('/caja', cajasRouter);
+    cajasRouter.get('/', cajas.todos);
+    cajasRouter.get('/nueva', cajas.nuevo);
+    cajasRouter.get('/apertura', cajas.apertura);
+    cajasRouter.get('/corte', cajas.corte);
+    cajasRouter.post('/nueva/guardar', cajas.guardar);
+    cajasRouter.post('/abrir', cajas.abrir);
+    cajasRouter.post('/corte/realizar', cajas.guardarCorte);
 
     //Productos
     app.use('/productos', productosRouter);
@@ -88,13 +102,13 @@ module.exports = function(app){
     clientesRouter.get('/nuevo', clientes.nuevo);
     clientesRouter.post('/guardar', clientes.guardar);
 
-      //tipos de Servicios
-      app.use('/inventarios', inventariosRouter);
-      inventariosRouter.get('/', inventarios.todos);
-      inventariosRouter.get('/nuevo', inventarios.nuevo);
-      inventariosRouter.post('/guardar', inventarios.guardar);
-      inventariosRouter.get('/editar/:id', inventarios.editar);
-      inventariosRouter.put('/actualizar/:id', inventarios.actualizar);
-      inventariosRouter.get('/eliminar/:id', inventarios.eliminar);
+    //tipos de Servicios
+    app.use('/inventarios', inventariosRouter);
+    inventariosRouter.get('/', inventarios.todos);
+    inventariosRouter.get('/nuevo', inventarios.nuevo);
+    inventariosRouter.post('/guardar', inventarios.guardar);
+    inventariosRouter.get('/editar/:id', inventarios.editar);
+    inventariosRouter.put('/actualizar/:id', inventarios.actualizar);
+    inventariosRouter.get('/eliminar/:id', inventarios.eliminar);
 
 }

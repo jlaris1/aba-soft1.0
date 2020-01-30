@@ -458,17 +458,24 @@ block contenido
                                     th.text-center  Codigo
                                     th.text-right   Descripción
                                     th.text-right   Unidad
+                                    th.text-right   Stock
                                     th.text-right   Precio Unitario
                                 tbody
                                     each p in productos
                                         tr.table-metadata(scope="row")
                                             td.text-center
-                                                div.btn-group.table-icons
-                                                    a(href="#" id=p.codigo, data-toggle="tooltip", data-placement="top", title="Agregar" onclick="agregarProductoBusqueda(this.id)").btn.btn-success
-                                                        i(style="color: white;").fas.fa-plus-circle
+                                                if p.existencia > 0
+                                                    div.btn-group.table-icons
+                                                        a(href="#" id=p.codigo, data-toggle="tooltip", data-placement="top", title="Agregar" onclick="agregarProductoBusqueda(this.id)").btn.btn-success
+                                                            i(style="color: white;").fas.fa-plus-circle
+                                                else
+                                                    div.btn-group.table-icons
+                                                        a(href="#").btn.btn-secondary.disabled
+                                                            i(style="color: white;").fas.fa-plus-circle
                                             td.text-center #{p.codigo}
                                             td.text-center #{p.descripcion}
                                             td.text-center #{p.unidad}
+                                            td.text-center #{p.existencia}
                                             td.text-center $ #{parseFloat(p.pVenta).toFixed(2)}
                 .modal-footer
                     .text-right
@@ -501,9 +508,14 @@ block contenido
                                         each c in clientes
                                             tr.table-metadata(scope="row")
                                                 td.text-center
-                                                    div.btn-group.table-icons
-                                                        a(href="#" , data-toggle="tooltip", data-placement="top", title="Agregar" onclick="agregarClienteBusqueda(#{p.codigo})").btn.btn-success
-                                                            i(style="color: white;").fas.fa-plus-circle
+                                                    if c.saldo >= c.limiteCredito
+                                                            div.btn-group.table-icons
+                                                                a(href="#").btn.btn-secondary.disabled
+                                                                    i(style="color: white;").fas.fa-plus-circle.disabled
+                                                    else
+                                                        div.btn-group.table-icons
+                                                            a(href="#" , data-toggle="tooltip", data-placement="top", title="Agregar" onclick="agregarClienteBusqueda(#{p.codigo})").btn.btn-success
+                                                                i(style="color: white;").fas.fa-plus-circle
                                                 td.text-center #{c.codigo}
                                                 td.text-center #{c.nombre}
                                                 td.text-center $ #{parseFloat(c.saldo).toFixed(2)}

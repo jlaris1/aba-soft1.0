@@ -1,0 +1,50 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        label {
+            font-weight: 700;
+        }
+    script.
+        $(document).ready( function(){
+        });
+
+    form(role="form" method="post" action="/cajas/abrir")
+        div.container-form
+            div.center-margin
+                div.icono-form
+                    div.icono-intermediate
+                        i.fa.fas.fa-hand-holding-usd
+                div.titulo-form
+                    label Corte Caja
+                div.izquierdo-bloque
+                    .form-group
+                        .input-group
+                            select.form-control(required type="text" name="caja" placeholder="Caja *" tabindex="1")
+                                option(value=0) << Seleccione >>
+                                each c in cajas
+                                    option(value=c.id) #{c.nombre}
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="montoInicial" placeholder="Monto inicial *" tabindex="2")
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="horaEntrada" placeholder="Hora entrada *" tabindex="3")
+                div.derecho-bloque
+                    .form-group
+                        .input-group
+                            select.form-control(required type="text" name="cajero" placeholder="cajero *" tabindex="4")
+                                option(value=0) << Seleccione >>
+                                option(value="Puma") Puma
+                                option(valie="Laris") Laris
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="montofinal" placeholder="Monto final *" tabindex="5")
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="horaSalida" placeholder="Hora salida *" tabindex="6")
+                .divider(style="margin-bottom: 20px; margin-top: 20px;")
+                .row
+                    .col-lg-2.align-self-end.ml-auto
+                        .form-group
+                            .input-group.btn-form
+                                input(type="submit" value="Guardar" tabindex="4").form-control

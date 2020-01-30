@@ -1,0 +1,46 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        .badge {
+            font-size: 16px;
+        }
+    script.
+        $(document).ready( function(){
+            $('#cajas').DataTable();
+        });
+    label(style="font-size: 1.5em") Clientes
+    .divider(style="margin-bottom: 20px;")
+    .text-right(style="margin-bottom: 25px;") 
+        div.btn-group
+            a(href="/caja/nueva").btn.btn-primary
+                i.fas.fa-plus-circle
+                |   Nueva
+            a(href="#o").btn.btn-primary.disabled
+                i.fas.fa-file-pdf
+                |   Reportes
+    .card
+        .card-tittle
+        .card-body.table-color-new
+            table#clientes.table.table-hover
+                    thead
+                        th.text-center
+                                    i(style="color: gray;").fas.fa-cog
+                        th Código
+                        th Nombre   
+                        th Fecha
+                        th Hora
+                    tbody
+                        each c in clientes
+                            tr.table-metadata(scope="row")
+                                td.text-center
+                                    div.btn-group.table-icons
+                                        a(href="/clientes/editar/" + c.id , data-toggle="tooltip", data-placement="top", title="Editar" style="background-color:white;").btn
+                                            i(style="color: gray;").fas.fa-pencil-alt
+                                        a(href="/clientes/eliminar/" + c.id, data-toggle="tooltip", data-placement="top", title="Eliminar").btn.btn-danger
+                                            i(style="color: white;").fas.fa-trash-alt
+                                td.text-center
+                                    label.badge.badge-dark #{ c.codigo }
+                                td #{ c.nombre }
+                                td #{ c.fecha }
+                                td #{ c.hora }
+                                

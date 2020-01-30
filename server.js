@@ -67,6 +67,8 @@ require('./config/models/TiposServicios');
 require('./config/models/Proveedores');
 require('./config/models/Ventas');
 require('./config/models/Inventarios');
+require('./config/models/Cajas');
+
 
 
 /* Importación de clase que contiene todas las rutas */

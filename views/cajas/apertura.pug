@@ -1,0 +1,41 @@
+extends ../layouts/layout.pug
+block contenido
+    style.
+        label {
+            font-weight: 700;
+        }
+    script.
+        $(document).ready( function(){
+        });
+
+    form(role="form" method="post" action="/caja/abrir")
+        div.container-form
+            div.center-margin
+                div.icono-form
+                    div.icono-intermediate
+                        i.fa.fas.fa-sign-out-alt
+                div.titulo-form
+                    label Apertura Caja
+                div.izquierdo-bloque
+                    .form-group
+                        .input-group
+                            select.form-control(required type="text" name="caja" placeholder="Caja *" tabindex="1")
+                                option(value=0) << Seleccione >>
+                                each c in cajas
+                                    option(value=c.id) #{c.nombre}
+                    .form-group
+                        .input-group
+                            input.form-control(required type="text" name="montoInicial" placeholder="Monto inicial *" tabindex="2")
+                div.derecho-bloque
+                    .form-group
+                        .input-group
+                            select.form-control(required type="text" name="cajero" placeholder="cajero *" tabindex="3")
+                                option(value=0) << Seleccione >>
+                                option(value="Puma") Puma
+                                option(valie="Laris") Laris
+                .divider(style="margin-bottom: 20px; margin-top: 20px;")
+                .row
+                    .col-lg-2.align-self-end.ml-auto
+                        .form-group
+                            .input-group.btn-form
+                                input(type="submit" value="Guardar" tabindex="4").form-control

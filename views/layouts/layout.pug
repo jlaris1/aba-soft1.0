@@ -51,12 +51,27 @@ html(lang="es")
 				// CATALOGOS
 				li.nav-item.dropdown
 					a#ventasDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-						i.fas.fa-fw.fa-dollar-sign
+						i.fas.fa-fw.fa-border-all
 						|	Catalogos
-					.dropdown-menu(aria-labelledby='ventasDropdown')
+					.dropdown-menu(aria-labelledby='catalogosDropdown')
 						a.dropdown-item(href='/tiposServicios/') 
 							i.fas.fa-table
 							|	Tipo de servicio
+				// CAJA
+				li.nav-item.dropdown
+					a#ventasDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						i.fas.fa-fw.fa-cash-register
+						|	Caja
+					.dropdown-menu(aria-labelledby='cajaDropdown')
+						a.dropdown-item(href='/caja/nueva') 
+							i.fas.fa-plus-circle
+							|	Nueva caja
+						a.dropdown-item(href='/caja/apertura') 
+							i.fas.fa-sign-out-alt
+							|	Apertura caja
+						a.dropdown-item(href='/caja/corte') 
+							i.fas.fa-hand-holding-usd
+							|	Corte caja
 				// VENTAS
 				li.nav-item.dropdown
 					a#ventasDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')

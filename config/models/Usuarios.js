@@ -6,6 +6,7 @@ var usuarioSchemaJSON = {
     nombre: String,
     usuario: String,
     password: String,
+    rol: String,
     permisos: String,
     fecha: String,
     hora: String
